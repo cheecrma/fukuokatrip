@@ -113,6 +113,18 @@ a{color:inherit}
 .more summary{padding:10px 14px;font-size:14px;color:var(--coral-d)}
 .more .in{padding:0 10px 10px}
 .more .food{margin-top:8px}
+.wx{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:4px 14px;margin:8px 0 2px;padding:14px 16px;border-radius:20px;background:var(--card);box-shadow:0 0 0 1px var(--line);min-height:76px}
+.wx-ic{width:44px;height:44px;border-radius:14px;background:var(--coral-l);color:var(--coral-d);display:grid;place-items:center}
+.wx-ic svg{width:28px;height:28px}
+.wx-b{display:flex;flex-direction:column;line-height:1.35;min-width:0}
+.wx-b .loc{font-size:12.5px;font-weight:700;color:var(--ink2)}
+.wx-b b{font-size:16.5px;letter-spacing:-.02em}
+.wx-t{text-align:right;line-height:1.05}
+.wx-t .hi{font-size:28px;font-weight:800;letter-spacing:-.03em;color:var(--coral-d)}
+.wx-t .lo{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-top:3px}
+.wx-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.wx-foot span{font-size:12px;font-weight:700;color:var(--coral-d);background:var(--coral-l);border-radius:6px;padding:1px 8px}
+.wx-note{font-size:13px;color:var(--ink2)}
 .guide{margin-top:10px;border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-bottom:0}
 .guide summary{padding:11px 14px;font-size:14px;color:var(--coral-d)}
 .guide .in{padding:0 12px 14px}
@@ -207,8 +219,8 @@ footer{padding:30px 0 40px;color:var(--ink2);font-size:12.5px}
 <script>
 (function(){
 const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
-const HOME_Q = '美野島 福岡市博多区';
-const AIRBNB = 'https://www.airbnb.co.kr/rooms/1693875417866594808';
+
+
 const WALK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M7 12l3-4 4 1 2 3 3 1"/></svg>';
 const TRAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></svg>';
 const distKm=(a,b)=>{const R=6371,toR=x=>x*Math.PI/180,dLa=toR(b[0]-a[0]),dLo=toR(b[1]-a[1]);const h=Math.sin(dLa/2)**2+Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));};
@@ -220,19 +232,19 @@ const LL = {
   yatai:[33.5917,130.4049], nakasu:[33.5893,130.4058],
   hita:[33.3218,130.9405], yufuin:[33.2665,131.3690], kusu:[33.2860,131.1600], lala:[33.5732,130.4338],
   tenjin:[33.5905,130.3992], shinshin:[33.5912,130.3967], mentaiju:[33.5927,130.4042], canal:[33.5897,130.4108],
-  kushida:[33.5930,130.4106], kawabata:[33.5945,130.4074], home:[33.5770,130.4203], dzst:[33.5193,130.5348], tenmangu:[33.5215,130.5355]
+  kushida:[33.5930,130.4106], kawabata:[33.5945,130.4074], marui:[33.5898,130.4189], dzst:[33.5193,130.5348], tenmangu:[33.5215,130.5355]
 };
 
 const DAYS = [
  { id:'day1', d:'11', w:'수', title:'도착, 나카스의 첫 밤', lead:'오후에 집을 나서 저녁에 후쿠오카 도착. 무료 연결버스와 지하철로 시내에 들어와 짐 풀고 강변으로.', map:'city',
    stops:[
-    {t:'13:25', title:'공항버스 탑승', sub:'범계역에서 인천공항 제2터미널', li:['경기공항리무진, 좌석 10번과 11번','버스가 제1터미널에 먼저 서요. 진에어는 제2터미널이니 T1에서 내리지 말고 끝까지','여권, 엔화, 휴대폰 충전 상태를 타기 전에 한 번 더'], q:'범계역 공항버스 정류장'},
+    {t:'13:25', title:'공항버스 탑승', sub:'인천공항 제2터미널행', li:['경기공항리무진','버스가 제1터미널에 먼저 서요. 진에어는 제2터미널이니 T1에서 내리지 말고 끝까지','여권, 엔화, 휴대폰 충전 상태를 타기 전에 한 번 더']},
     {t:'14:45', est:true, title:'인천공항 T2 도착, 체크인', li:['진에어는 제2터미널 서편 카운터 쪽 (대한항공 계열)','출발 2시간 반 전 도착이라 수속하고 식사까지 여유'], guide:'icn'},
     {t:'17:25', kind:'flight', title:'진에어 LJ0461', flight:['ICN','T2 17:25','FUK','18:50','1시간 25분'], li:['일반석, 수하물 15kg 포함','편도 두 장을 묶은 항공권이라 취소 규정은 항공사별로 따로']},
     {t:'18:50', title:'후쿠오카공항 국제선 도착', li:['입국 심사 전에 Visit Japan Web QR 화면 준비','짐 찾고 입국장으로 나오면 1층'], ll:LL.fuk, m:'후쿠오카공항', q:'福岡空港 国際線ターミナル'},
     {t:'19:30', est:true, title:'무료 연결버스, 지하철로 하카타역', li:['국제선 1층 1번 승강장에서 국내선행 무료 연결버스, 10분에서 15분','국내선 터미널 지하 후쿠오카공항역에서 지하철 공항선, 하카타역까지 2정거장 5분','지하철은 신용카드 터치로 바로 탈 수 있어요 (트래블카드 등 컨택리스)'], q:'福岡空港駅'},
-    {t:'19:50', est:true, title:'하카타역에서 숙소로', sub:'버스 약 11분 또는 걸어서 약 20분', li:['하카타역 앞 A 승강장에서 니시테츠 버스 47번 또는 48번 계통, 미노시마 정류장에서 하차','정확히 어느 정류장에서 내릴지는 체크인 안내 메시지의 주소로 구글맵 확인','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아 IC카드나 동전 준비'], q:'博多駅前A バス停'},
-    {t:'20:15', est:true, title:'숙소 셀프 체크인', sub:'미노시마, 에어비앤비 3박', li:['체크인은 16시부터 22시. 프런트 없는 셀프 체크인이라 이틀 전에 오는 안내 메시지를 미리 저장','22시가 넘으면 호스트 긴급 연락이 안 될 수 있어요'], ll:LL.home, m:'숙소', hotel:true, airbnb:true},
+    {t:'19:50', est:true, title:'하카타역에서 숙소로', sub:'버스 약 11분, 내려서 도보 2분', li:['체크인 안내 메시지로 받은 주소를 구글맵 대중교통 길찾기에 넣으면 버스 번호와 정류장이 나와요','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아 IC카드나 동전 준비'], hotel:true},
+    {t:'20:15', est:true, title:'숙소 셀프 체크인', sub:'3박', li:['체크인은 16시부터 22시. 프런트 없는 셀프 체크인이라 이틀 전에 오는 안내 메시지를 미리 저장','22시가 넘으면 호스트 긴급 연락이 안 될 수 있어요'], hotel:true},
     {t:'20:45', title:'저녁, 꼬치에 생맥 한잔', sub:'숙소에서 나카스까지 2km 남짓, 택시 10분 안팎', foods:[
       {n:'야키토리 하치베', jp:'焼とり八兵衛', m:'<b>하카타식 꼬치</b>, 생맥주', nt:'후쿠오카에서 이름난 꼬치집. 양배추가 무한으로 나오는 하카타 스타일에 돼지삼겹 꼬치가 명물이에요. 나카스 근처 지점이 있어 첫날 숙소 가는 길에 좋아요. 지점마다 위치와 마감이 달라 버튼으로 확인.', q:'焼とり八兵衛'},
       {alt:true, n:'나카스 야타이 거리', jp:'中洲屋台', m:'꼬치, 오뎅, 생맥주', nt:'강변 포장마차에서 한 잔. 자리가 좁아 2명이 오히려 들어가기 쉽고, 현금이 편해요. 비 오는 날은 쉬는 곳이 많아요.', q:'中洲屋台'},
@@ -244,13 +256,18 @@ const DAYS = [
    ]},
  { id:'day2', d:'12', w:'목', title:'버스투어, 히타와 유후인', lead:'와쿠와쿠 4호선. 한국어 가이드와 함께 두 마을을 여유 있게 돌고, 라라포트에서 내려 건담 보고 저녁.', map:'tour',
    stops:[
-    {t:'07:50', title:'숙소 출발', li:['미노시마 정류장에서 48-2 계통을 타면 하카타역 치쿠시구치 바로 앞에 내려요 (집합 장소 쪽)','47번, 48번 계통은 하카타역 앞 A 쪽에 서요. 치쿠시구치까지 역 안으로 걸어서 5분 정도','버스를 놓치면 택시, 걸으면 20분 정도'], ll:LL.home, m:'숙소', hotel:true},
-    {t:'08:15', title:'집합 장소 도착', sub:'오리엔탈 호텔 후쿠오카 하카타스테이션 앞', li:['하카타역 치쿠시구치 쪽. ‘와쿠와쿠버스’ 깃발 든 가이드 찾기','08:30 미팅, 08:40 출발. 지각하면 환불이 안 돼요','자유석 선착순이라 일찍 갈수록 좋은 자리'], ll:LL.oriental, m:'하카타', q:'オリエンタルホテル福岡 博多ステーション'},
+    {t:'07:40', title:'숙소 출발', li:['하카타역까지 버스 약 11분, 놓치면 바로 택시','하카타역 서쪽 하카타구치 쪽에 오니기리 가게가 있어요'], hotel:true},
+    {t:'07:55', title:'아침 오니기리 포장', sub:'하카타역 하카타구치, 하카타 마루이 1층', foods:[
+      {n:'포타마 하카타 마루이점', jp:'ポーたま 博多マルイ店', m:'<b>포크 타마고 오니기리</b>', nt:'스팸과 달걀말이를 밥과 김 사이에 끼운 오키나와식 오니기리 전문점. 주문받고 바로 만들어줘서 따끈해요. 아침 7시부터 열고, 이 매장에서만 파는 후쿠오카 한정 메뉴도 있어요. 버스에서 먹게 포장으로.', q:'ポーたま 博多マルイ店'},
+      {alt:true, n:'포타마 쿠시다 오모테산도점', jp:'ポーたま 櫛田表参道店', m:'포크 타마고 오니기리', nt:'후쿠오카 1호 매장, 아침 7시 오픈. 하카타역에서 걸어서 15분 정도라 집합 전 동선에는 마루이점이 편해요.', q:'ポーたま 櫛田表参道店'},
+      {alt:true, n:'로손 오리엔탈 호텔 1층', jp:'ローソン', m:'편의점 오니기리, 커피, 생수', nt:'집합 장소가 있는 바로 그 건물. 시간이 빠듯하거나 음료만 살 때.', q:'ローソン オリエンタルホテル福岡博多ステーション'}
+     ], ll:LL.oriental, m:'하카타'},
+    {t:'08:15', title:'집합 장소 도착', sub:'오리엔탈 호텔 후쿠오카 하카타스테이션 앞', li:['하카타역 반대편 치쿠시구치 쪽, 마루이에서 역 안을 가로질러 걸어서 5분 정도. ‘와쿠와쿠버스’ 깃발 든 가이드 찾기','08:30 미팅, 08:40 출발. 지각하면 환불이 안 돼요','자유석 선착순이라 일찍 갈수록 좋은 자리'], ll:LL.oriental, m:'하카타', q:'オリエンタルホテル福岡 博多ステーション'},
     {t:'08:40', title:'하카타역 출발', li:['히타까지 약 70분, 가는 길에 자는 시간을 줘요','전 좌석 USB 충전 가능']},
     {t:'09:50', title:'히타 마메다마치', sub:'약 130분 자유 시간', li:['에도시대 거리가 남아 ‘서쪽의 교토’로 불리는 곳','양조장에서 전통주 시음, 간장 만드는 과정 구경','후기 추천: 텐료 히나어전 박물관'], foods:[
       {n:'마메다마치 길거리 간식', m:'쿠리소바 만쥬, 간장 소프트아이스크림, 카스테라', nt:'작은 상점이 많아 현금이 편해요.'}
      ], ll:LL.hita, noRoute:true, m:'히타', q:'豆田町 日田市'},
-    {t:'12:50', title:'유후인', sub:'약 200분 자유 시간', li:['유노츠보 거리를 따라 긴린코 호수까지 걸어서 20분 남짓','플로랄빌리지: 영국 코츠월드풍 테마 마을','후기 추천: 시바견 카페, 닥터피쉬 족욕 카페, 온천'], foods:[
+    {t:'12:50', title:'유후인', sub:'약 200분 자유 시간', li:['유노츠보 거리를 따라 긴린코 호수까지 걸어서 20분 남짓','플로랄빌리지: 영국 코츠월드풍 테마 마을','후기 추천: 시바견 카페'], foods:[
       {n:'유후마부시 신 긴린코 본점', jp:'由布まぶし 心 金鱗湖本店', m:'<b>분고규 마부시</b> 솥밥, 장어와 토종닭 메뉴도 있음', nt:'유후인 대표 맛집이라 평일에도 줄을 서요. 10:30부터 18:30까지 (주문 마감 17:30), 카드가 안 되고 현금만 받아요. 버스에서 내리면 먼저 가서 줄부터.', q:'由布まぶし 心 金鱗湖本店'},
       {alt:true, n:'유노다케안', jp:'湯の岳庵', m:'정갈한 일본 가정식, 분고규 요리', nt:'긴린코 바로 옆 료칸 가메노이벳소의 식당. 오래된 일본 가옥 분위기라 조용히 먹고 싶을 때.', q:'湯の岳庵 由布院'},
       {alt:true, n:'유후인 금상 고로케', jp:'湯布院 金賞コロッケ', m:'금상 고로케', nt:'걸으면서 먹기 좋은 유후인 명물 간식.', q:'湯布院 金賞コロッケ'},
@@ -262,11 +279,11 @@ const DAYS = [
      ], ll:LL.kusu, noRoute:true, m:'쿠스휴게소', side:'t', q:'玖珠SA'},
     {t:'18:00', est:true, title:'라라포트에서 중도 하차', li:['내릴 거라고 가이드에게 미리 말해두기','하차 후 투어버스는 하카타역으로 바로 가요 (18:30 도착 예정)'], ll:LL.lala, noRoute:true, m:'라라포트', q:'三井ショッピングパーク ららぽーと福岡'},
     {t:'19:00', title:'실물 크기 뉴건담 라이트쇼', sub:'라라포트 후쿠오카 오벌파크', li:['19:00부터 21:00까지 30분 간격으로 열린다는 후기가 많아요. 당일 현장 안내 확인','저녁은 라라포트 안 식당가에서 편하게']},
-    {t:'20:30', title:'숙소로 복귀', li:['택시가 제일 빨라요. 라라포트와 숙소는 같은 하카타구 남쪽이라 가까운 편','버스라면 다케시타역 서쪽 출구 정류장에서 48번 계통 하카타 방면, 미노시마에서 하차 (탑승 전 행선지 확인)'], q:'竹下駅西口 バス停', hotel:true}
+    {t:'20:30', title:'숙소로 복귀', li:['택시가 제일 빨라요','버스로 가려면 하카타 방면으로 나와서 숙소행으로 갈아타기 (구글맵 길찾기로 확인)'], hotel:true}
    ]},
  { id:'day3', d:'13', w:'금', title:'텐진에서 캐널시티까지', lead:'오전엔 텐진 쇼핑, 점심 먹고 강 건너 캐널시티로 걸어서. 저녁은 하카타역에서 모츠나베.', map:'city',
    stops:[
-    {t:'09:30', title:'숙소 출발', li:['미노시마 정류장에서 47번 또는 48번 계통으로 하카타역, 약 11분','하카타역에서 지하철 공항선 텐진역까지 3정거장 5분','날씨 좋으면 택시로 텐진 직행도 10분 남짓'], ll:LL.home, m:'숙소', hotel:true},
+    {t:'09:30', title:'숙소 출발', li:['하카타역까지 버스 약 11분','하카타역에서 지하철 공항선 텐진역까지 3정거장 5분','택시로 텐진 직행도 가능'], hotel:true},
     {t:'10:00', title:'텐진 쇼핑', sub:'다이마루, 파르코, 텐진 지하상가', li:['지하상가는 비 와도 걱정 없고 유럽풍 바닥과 천장이 볼거리','면세 물건은 세금 포함 가격으로 결제하고 영수증 꼭 보관, 귀국날 공항에서 환급 (준비 탭 참고)'], ll:LL.tenjin, m:'텐진', q:'天神地下街'},
     {t:'12:30', title:'텐진에서 점심', foods:[
       {n:'텐푸라 히라오 다이묘점', jp:'天ぷら ひらお 大名店', m:'<b>텐푸라 정식</b>', nt:'카운터 앞에서 한 점씩 바로 튀겨줘요. 무료 반찬인 오징어 젓갈이 명물. 저렴하고 회전이 빨라 줄이 있어도 금방 빠지는 편.', q:'天ぷら ひらお 大名店'},
@@ -285,11 +302,11 @@ const DAYS = [
       {alt:true, n:'모츠나베 라쿠텐치 하카타역앞 본점', jp:'もつ鍋 楽天地 博多駅前本店', m:'부추를 산더미처럼 올린 모츠나베', nt:'양이 넉넉하고 부담 없는 가격대. 시끌벅적한 분위기.', q:'もつ鍋 楽天地 博多駅前本店'},
       {alt:true, n:'하카타 하나미도리', jp:'博多華味鳥', m:'<b>미즈타키</b> 닭 백숙 전골', nt:'곱창이 부담되면 하카타 또 다른 명물인 닭 전골로. 하카타역 근처에도 지점이 있어요.', q:'博多華味鳥 博多駅'}
      ], ll:LL.hakata, m:'하카타역'},
-    {t:'20:30', title:'숙소 복귀', li:['하카타역 앞 A 승강장에서 47번 또는 48번 계통, 약 11분. 걸어도 20분 정도','내일 10시 체크아웃이니 짐은 오늘 밤에 싸두기','면세로 산 물건은 뜯지 말고 기내용 가방 하나에 모아두기'], hotel:true}
+    {t:'20:30', title:'숙소 복귀', li:['하카타역에서 버스 약 11분 또는 택시','내일 10시 체크아웃이니 짐은 오늘 밤에 싸두기','면세로 산 물건은 뜯지 말고 기내용 가방 하나에 모아두기'], hotel:true}
    ]},
  { id:'day4', d:'14', w:'토', title:'다자이후 산책, 그리고 귀국', lead:'체크아웃하고 짐 들고 다자이후로. 참배길 걸으며 우메가에모치 먹고 텐만구 둘러본 뒤, 하카타로 돌아오지 않고 공항으로 바로 가요.', map:'city',
    stops:[
-    {t:'10:00', title:'체크아웃', li:['체크아웃은 10시. 체크아웃 후 짐 보관은 안 되는 숙소','캐리어가 있으니 하카타 버스터미널까지는 택시가 편해요 (10분 안팎)'], ll:LL.home, m:'숙소', hotel:true},
+    {t:'10:00', title:'체크아웃', li:['체크아웃은 10시. 체크아웃 후 짐 보관은 안 되는 숙소','캐리어가 있으니 하카타 버스터미널까지는 택시가 편해요 (10분 안팎)'], hotel:true},
     {t:'10:30', title:'다자이후행 버스', sub:'하카타 버스터미널에서 약 40분', li:['하카타 버스터미널에서 니시테츠 다자이후행 직행 버스 ‘旅人(타비토)’. 타는 승강장은 터미널 안내판 확인','캐리어는 들고 타는 일반 버스라 한쪽에 잘 세워두기','버스가 불편하면 니시테츠 전철: 텐진에서 후츠카이치 환승, 다자이후역까지 약 30분'], ll:LL.hbt, m:'버스터미널', q:'博多バスターミナル'},
     {t:'11:15', est:true, title:'다자이후역에 짐 맡기기', li:['역 안팎 코인로커에 캐리어 넣기. 대형 칸은 토요일 오전에 금방 차요','꽉 찼으면 역 앞 관광안내소나 주변 가게의 유료 짐 보관','ecbo cloak 앱으로 근처 보관 장소를 미리 예약해두면 안심'], ll:LL.dzst, m:'다자이후역', side:'b', q:'太宰府駅 コインロッカー'},
     {t:'11:30', title:'참배길과 다자이후 텐만구', sub:'역에서 걸어서 5분부터', li:['역에서 텐만구까지 이어지는 참배길 상점가. 갓 구운 우메가에모치를 하나씩 들고 걷기','구마 겐고가 설계한 나무 격자 스타벅스가 참배길 중간에 있어요','학문의 신을 모신 신사. 다리 셋을 건너 본전으로, 소 동상 머리를 쓰다듬으면 똑똑해진다는 이야기','11월 중순이면 경내 단풍이 물들기 시작할 무렵'], ll:LL.tenmangu, m:'다자이후 텐만구', q:'太宰府天満宮'},
@@ -308,8 +325,8 @@ const DAYS = [
 
 const BOOK = [
   {k:'항공권, 성인 2명', v:'진에어 LJ0461 / 에어서울 RS0458', d:'가는 편 11.11 17:25 인천 T2, 오는 편 11.14 17:00 후쿠오카, 인천 T2 도착'},
-  {k:'공항버스, 2명', v:'범계역에서 인천공항 T2', d:'11.11 13:25, 경기공항리무진, 좌석 10번 11번'},
-  {k:'숙소, 3박', v:'에어비앤비 미노시마 2026년 신축 30㎡', d:'11.11 체크인 16시부터, 11.14 체크아웃 10시', link:'https://www.airbnb.co.kr/rooms/1693875417866594808', linkT:'에어비앤비에서 보기'},
+  {k:'공항버스, 2명', v:'인천공항 T2행 공항버스', d:'11.11 13:25, 경기공항리무진'},
+  {k:'숙소, 3박', v:'셀프 체크인 숙소', d:'11.11 체크인 16시부터, 11.14 체크아웃 10시'},
   {k:'버스투어, 2명', v:'와쿠와쿠 4호선 히타 유후인', d:'11.12 08:30 집합, 네이버 예약', link:'https://www.klook.com/ko/activity/124367-wakuwaku-bus-one-day-tour-hita-yufuin/', linkT:'투어 코스 소개'}
 ];
 
@@ -335,7 +352,7 @@ const APPS = [
   {g:'예약과 입국', items:[
     {n:'Visit Japan Web', d:'앱이 아니라 웹사이트. 입국 심사와 세관 정보를 미리 등록하면 QR 하나로 통과해요.', w:'출국 며칠 전 등록', link:'https://www.vjw.digital.go.jp/', lt:'Visit Japan Web 열기'},
     {n:'진에어, 에어서울 앱', d:'모바일 체크인이 열리면 미리 해두고 공항에서 셀프 백드롭으로 짐만 부치면 빨라요.', w:'출발 전날'},
-    {n:'에어비앤비 앱', d:'셀프 체크인 안내와 도어락 정보가 메시지로 와요. 오프라인에서도 보이게 캡처.', w:'11월 9일쯤 안내 도착'},
+    {n:'숙소 예약 앱', d:'셀프 체크인 안내와 도어락 정보가 메시지로 와요. 오프라인에서도 보이게 캡처.', w:'11월 9일쯤 안내 도착'},
     {n:'네이버 예약', d:'버스투어 예약 내역과 집합 안내 확인.', w:'12일 아침'}
   ]},
   {g:'짐과 안전', items:[
@@ -356,7 +373,7 @@ const CHECK = [
   ['yen','엔화 현금','유후마부시 신, 야타이, 히타 상점가, 버스는 현금'],
   ['ic','IC카드 또는 동전','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아요'],
   ['tour','버스투어 네이버 예약 확인','집합 시간과 예약자 이름 캡처'],
-  ['guestlist','숙박자 명부 제출','에어비앤비 예약 후 온라인으로, 여권 사본 필요'],
+  ['guestlist','숙박자 명부 제출','숙소 예약 후 온라인으로, 여권 사본 필요'],
   ['checkin','체크인 안내 메시지 저장','11월 9일쯤 도착, 오프라인에서도 보이게 캡처'],
   ['sim','eSIM 또는 로밍','지도랑 이 페이지 보려면 필수'],
   ['suica','교통카드 준비','아이폰은 지갑 앱 Suica, 안드로이드는 현지에서 실물 카드'],
@@ -413,7 +430,7 @@ const BASE = {
     water:[ [[33.80,130.20],[33.80,130.62],[33.66,130.55],[33.625,130.47],[33.607,130.42],[33.600,130.39],[33.605,130.34],[33.58,130.26],[33.60,130.20]],
             [[33.62,131.80],[33.40,131.80],[33.20,131.80],[33.22,131.66],[33.28,131.56],[33.33,131.52],[33.40,131.53],[33.50,131.62],[33.60,131.55]] ],
     rivers:[],
-    route:['oriental','hita','yufuin','kusu','lala','home'],
+    route:['oriental','hita','yufuin','kusu','lala','oriental'],
     waterLabel:{ll:[33.72,130.20], t:'하카타만'}
   }
 };
@@ -542,8 +559,8 @@ function curIdx(day){
 
 function renderDay(day){
   const cur=curIdx(day), NO=mapNos(day);
-  let prev = day.id==='day1' ? null : LL.home, prevName='숙소';
-  let h=`<div class="dayhead"><h2>${day.title}</h2><p>${day.lead}</p></div>`;
+  let prev = null, prevName='';
+  let h=`<div class="dayhead"><h2>${day.title}</h2><p>${day.lead}</p></div><div class="wx" id="wx" data-id="${day.id}"><span class="wx-ic">${WI.cloud}</span><span class="wx-b"><span class="loc">${WXLOC[day.id].n} 날씨</span><span class="wx-note">불러오는 중</span></span><span></span></div>`;
   h+=buildMap(day);
   h+='<ol class="tl">';
   day.stops.forEach((s,i)=>{
@@ -557,7 +574,7 @@ function renderDay(day){
     if(s.li) h+='<ul>'+s.li.map(x=>`<li>${x}</li>`).join('')+'</ul>';
     if(s.foods) h+=foodsBlock(s.foods);
     if(s.guide){ const g=GUIDES[s.guide]; h+=`<details class="guide"><summary>${g.s}</summary><div class="in">${g.body()}</div></details>`; }
-    const dest = s.ll || (s.hotel ? LL.home : null);
+    const dest = s.ll || null;
     let btn='';
     if(dest && prev && !s.noRoute && distKm(prev,dest)>0.15){
       const walk = distKm(prev,dest) < 1.3;
@@ -565,7 +582,7 @@ function renderDay(day){
       const url = `https://www.google.com/maps/dir/?api=1&origin=${prev[0]},${prev[1]}&destination=${encodeURIComponent(dq)}&travelmode=${walk?'walking':'transit'}`;
       btn += `<a class="btn" href="${url}" target="_blank" rel="noopener">${walk?WALK:TRAIN}${prevName}에서 ${walk?'걸어가는 길':'가는 길'}</a>`;
     }
-    if(s.airbnb) btn += `<a class="btn" href="${AIRBNB}" target="_blank" rel="noopener">에어비앤비 숙소 보기</a>`;
+
     if(btn) h+=`<div class="btns">${btn}</div>`;
     if(dest){ prev=dest; prevName = s.m || '숙소'; }
     h+='</div></li>';
@@ -575,7 +592,7 @@ function renderDay(day){
 }
 
 function renderInfo(){
-  let h='<div class="dayhead"><h2>예약과 준비</h2><p>예약 내역, 숙소 메모, 챙길 것, 이동 방법을 한 곳에.</p></div>';
+  let h='<div class="dayhead"><h2>예약과 준비</h2><p>예약 내역, 숙소 규칙, 챙길 것, 이동 방법을 한 곳에.</p></div>';
   h+='<section class="block" style="padding-top:8px"><h2>예약 내역</h2>';
   BOOK.forEach(b=>{
     h+=`<div class="ticket"><div class="k">${b.k}</div><div class="v">${b.v}</div><div class="d">${b.d}</div>`+
@@ -584,20 +601,16 @@ function renderInfo(){
   h+='</section>';
 
   h+=`<section class="block"><h2>숙소</h2><div class="hotel">
-    <div style="font-weight:900;font-size:18px;letter-spacing:-.02em">미노시마 에어비앤비, 3박</div>
-    <p style="margin:4px 0 10px;color:var(--ink2);font-size:13.5px">2026년 신축 단독 30㎡, 더블 침대 1개와 소파베드 1개. 후기 4.95점, 슈퍼호스트 Alex</p>
-    <ul style="margin:0 0 12px;padding-left:18px;font-size:14px">
+    <div style="font-weight:900;font-size:18px;letter-spacing:-.02em">셀프 체크인 숙소, 3박</div>
+    <ul style="margin:8px 0 12px;padding-left:18px;font-size:14px">
       <li>체크인 16:00~22:00 셀프, 안내는 이틀 전 메시지로</li>
       <li>체크아웃 10:00, 체크아웃 후 짐 보관 안 됨</li>
       <li>체크인 당일은 11시부터 짐만 먼저 맡길 수 있음</li>
       <li>예약 후 숙박자 명부 온라인 제출 필수 (이름, 주소, 여권 사본)</li>
       <li>하카타역에서 버스 약 11분, 내려서 도보 2분. 공항에서 택시 약 15분</li>
       <li>주방, 세탁기, 욕조, 에어컨 난방 (바닥 난방 없음). 매일 청소는 없음</li>
-      <li>슈퍼마켓 도보 4분, 편의점 5분, 드럭스토어 8분</li>
     </ul>
-    <div class="btns" style="margin:0 0 12px"><a class="btn" href="${AIRBNB}" target="_blank" rel="noopener">에어비앤비에서 보기</a><a class="btn" href="${gmap(HOME_Q)}" target="_blank" rel="noopener">${PIN}미노시마 지도</a></div>
-    <div class="row"><label for="hm">메모 (도어락 번호, 정확한 주소 등)</label><input id="hm" autocomplete="off"></div>
-  </div><p class="map-note">지도에 찍힌 숙소 위치는 에어비앤비가 보여주는 대략적인 위치예요. 정확한 주소는 체크인 안내 메시지 기준. 메모는 이 휴대폰에만 저장돼요.</p></section>`;
+  </div><p class="map-note">이 페이지는 공개 주소라서 숙소 위치와 예약 링크는 넣지 않았어요. 주소와 도어락 정보는 숙소 예약 앱의 체크인 안내에서 확인하세요.</p></section>`;
 
   h+='<section class="block apps"><h2>깔아두면 편한 것</h2>';
   APPS.forEach(g=>{ h+=`<h3>${g.g}</h3>`; g.items.forEach(a=>{ h+=`<div class="app"><div class="an">${a.n}${a.jp?`<small>${a.jp}</small>`:''}</div><p>${a.d}</p>${a.w?`<span class="when">${a.w}</span>`:''}${a.link?`<div class="btns"><a class="btn" href="${a.link}" target="_blank" rel="noopener">${a.lt}</a></div>`:''}</div>`; }); });
@@ -628,11 +641,8 @@ function renderInfo(){
     <li><b>직행 노선버스</b>: 국제선 1층 승강장에서 하카타 버스터미널행 니시테츠 버스 약 20분 (310엔 안팎, 유료). 환승은 없지만 배차가 뜸한 편</li>
     <li><b>택시</b>: 국제선 1층 택시 승강장에서 숙소까지 약 15분. 짐 많고 피곤할 때</li></ul></div></details>
   <details><summary>숙소 오가기</summary><div class="in"><ul>
-    <li><b>숙소와 하카타역</b>: 니시테츠 버스 47번, 48번 계통. 하카타역 쪽은 하카타역 앞 A 승강장, 숙소 쪽은 미노시마 1초메, 2초메, 3초메 정류장 중 가까운 곳. 약 11분, 내려서 도보 2분</li>
-    <li><b>48-2 계통</b>: 미노시마에서 하카타역 치쿠시구치행. 투어 집합 장소와 모츠나베 오오야마가 치쿠시구치 쪽이라 편해요</li>
-    <li><b>걸어서</b>: 숙소에서 하카타역까지 1.4km 정도, 약 20분</li>
-    <li><b>택시</b>: 하카타역, 나카스, 라라포트 모두 10분 안팎 거리</li>
-    <li>정확한 정류장은 체크인 안내 메시지의 주소를 구글맵 대중교통 길찾기에 넣어 확인</li></ul></div></details>
+    <li><b>숙소와 하카타역</b>: 버스 약 11분, 내려서 도보 2분. 버스 번호와 정류장은 구글맵 길찾기로</li>
+    <li>체크인 안내 메시지로 받은 주소를 구글맵 대중교통 길찾기에 넣으면 버스 번호까지 나와요</li></ul></div></details>
   <details><summary>시내 이동</summary><div class="in"><ul>
     <li><b>하카타역과 텐진</b>: 지하철 공항선 3정거장 5분</li>
     <li><b>하카타역과 나카스</b>: 지하철 공항선 나카스카와바타역 2정거장, 또는 걸어서 15분 정도</li>
@@ -640,7 +650,7 @@ function renderInfo(){
     <li><b>캐널시티에서 하카타역</b>: 걸어서 15분 정도</li>
     <li><b>하카타에서 다자이후</b>: 하카타 버스터미널에서 직행 버스 약 40분, 또는 니시테츠 전철 (텐진에서 후츠카이치 환승) 약 30분</li>
     <li><b>다자이후에서 공항</b>: 국제선 터미널 직행 버스 약 25분에서 30분, 택시도 25분 안팎</li>
-    <li><b>라라포트</b>: JR 다케시타역에서 걸어서 9분 정도, 다케시타역 서쪽 출구 정류장에 48번 계통이 서요</li></ul></div></details>
+    <li><b>라라포트</b>: JR 다케시타역에서 걸어서 9분 정도</li></ul></div></details>
   <details><summary>버스, 지하철, 택시 타는 법</summary><div class="in"><ul>
     <li><b>지하철</b>: 개찰구에서 신용카드(컨택리스) 터치로 바로 탈 수 있어요. 하루 요금 상한 640엔 자동 적용</li>
     <li><b>니시테츠 버스</b>: 뒷문이나 가운데 문으로 타면서 IC카드 터치, 현금이면 정리권 뽑기. 내릴 때 앞문에서 요금 내기. 신용카드 터치는 안 되는 경우가 많아요</li>
@@ -658,15 +668,59 @@ function renderInfo(){
 }
 
 function bindInfo(){
-  const hm=document.getElementById('hm');
-  try{ hm.value=localStorage.getItem('hotel-memo')||''; }catch(e){}
-  hm.addEventListener('input',()=>{ try{ localStorage.setItem('hotel-memo',hm.value); }catch(e){} });
   let saved={}; try{ saved=JSON.parse(localStorage.getItem('check')||'{}'); }catch(e){}
   const boxes=[...document.querySelectorAll('.check input')];
   const prog=()=>{ const n=boxes.filter(b=>b.checked).length; document.getElementById('prog').textContent = n===boxes.length?'다 챙겼어요':`${boxes.length}개 중 ${n}개 챙김`; };
   boxes.forEach(b=>{ b.checked=!!saved[b.dataset.k]; b.addEventListener('change',()=>{ saved[b.dataset.k]=b.checked; try{ localStorage.setItem('check',JSON.stringify(saved)); }catch(e){} prog(); }); });
   prog();
 }
+
+/* ---------- 날씨 ---------- */
+const WXLOC={day1:{n:'후쿠오카',ll:[33.59,130.40]},day2:{n:'유후인',ll:[33.265,131.36]},day3:{n:'후쿠오카',ll:[33.59,130.40]},day4:{n:'다자이후',ll:[33.52,130.53]}};
+const SVGW=b=>`<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${b}</svg>`;
+const CLOUD='<path d="M9.5 24h13a5 5 0 0 0 .6-9.96A7 7 0 0 0 9.6 15.2 4.4 4.4 0 0 0 9.5 24z"/>';
+const WI={
+  sun:SVGW('<circle cx="16" cy="16" r="5.5"/><path d="M16 4v3M16 25v3M4 16h3M25 16h3M7.5 7.5l2.1 2.1M22.4 22.4l2.1 2.1M7.5 24.5l2.1-2.1M22.4 9.6l2.1-2.1"/>'),
+  part:SVGW('<circle cx="12" cy="11" r="4"/><path d="M12 3.5v2M4.5 11h2M6.7 5.7l1.4 1.4M17.3 5.7l-1.4 1.4"/><path d="M12.5 26h10a4.2 4.2 0 0 0 .5-8.37A5.8 5.8 0 0 0 12.4 18.6 3.7 3.7 0 0 0 12.5 26z"/>'),
+  cloud:SVGW(CLOUD),
+  fog:SVGW('<path d="M6 12h20M4 17h24M7 22h18"/>'),
+  rain:SVGW('<path d="M9.5 19h13a5 5 0 0 0 .6-9.96A7 7 0 0 0 9.6 10.2 4.4 4.4 0 0 0 9.5 19z"/><path d="M11 23l-1.5 4M17 23l-1.5 4M23 23l-1.5 4"/>'),
+  snow:SVGW('<path d="M9.5 19h13a5 5 0 0 0 .6-9.96A7 7 0 0 0 9.6 10.2 4.4 4.4 0 0 0 9.5 19z"/><path d="M11 24v.1M16 26v.1M21 24v.1"/>'),
+  storm:SVGW('<path d="M9.5 19h13a5 5 0 0 0 .6-9.96A7 7 0 0 0 9.6 10.2 4.4 4.4 0 0 0 9.5 19z"/><path d="M17 20l-3 5h4l-2 4"/>'),
+  cal:SVGW('<rect x="5" y="7" width="22" height="20" rx="4"/><path d="M5 13h22M11 4v5M21 4v5"/>')
+};
+const WMO=c=>{ if(c===0) return ['sun','맑음']; if(c<=2) return ['part','구름 조금']; if(c===3) return ['cloud','흐림']; if(c<=48) return ['fog','안개']; if(c<=57) return ['rain','이슬비']; if(c<=67) return ['rain','비']; if(c<=77) return ['snow','눈']; if(c<=82) return ['rain','소나기']; if(c<=86) return ['snow','눈']; return ['storm','뇌우']; };
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const dayDiff=(a,b)=>Math.round((Date.parse(a)-Date.parse(b))/864e5);
+async function getWx(id){
+  const date=DATES[id], loc=WXLOC[id], key='wx-'+id, diff=dayDiff(date,NOW.date);
+  const cached=lsGet(key,null);
+  if(cached && Date.now()-cached.t < (diff<-1 ? 7*864e5 : 30*60e3)) return cached.v;
+  if(diff>15) return {later:true};
+  const old = diff < -60;
+  const base = old ? 'https://archive-api.open-meteo.com/v1/archive' : 'https://api.open-meteo.com/v1/forecast';
+  const daily = old ? 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum' : 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum';
+  const url=`${base}?latitude=${loc.ll[0]}&longitude=${loc.ll[1]}&daily=${daily}&timezone=Asia%2FTokyo&start_date=${date}&end_date=${date}`;
+  try{
+    const r=await fetch(url); if(!r.ok) throw 0; const d=(await r.json()).daily;
+    const v={code:d.weather_code[0],max:d.temperature_2m_max[0],min:d.temperature_2m_min[0],pp:d.precipitation_probability_max?d.precipitation_probability_max[0]:null,ps:d.precipitation_sum?d.precipitation_sum[0]:null,past:diff<0};
+    if(v.max==null) throw 0;
+    lsSet(key,{t:Date.now(),v}); return v;
+  }catch(e){ return cached?cached.v:null; }
+}
+async function fillWx(id){
+  const el=document.getElementById('wx'); if(!el) return;
+  const loc=WXLOC[id], v=await getWx(id);
+  if(el.dataset.id!==id || !el.isConnected) return;
+  if(!v){ el.innerHTML=`<span class="wx-ic">${WI.cloud}</span><span class="wx-b"><span class="loc">${loc.n} 날씨</span><span class="wx-note">불러오지 못했어요. 인터넷 연결을 확인해 주세요</span></span><span></span>`; return; }
+  if(v.later){ el.innerHTML=`<span class="wx-ic">${WI.cal}</span><span class="wx-b"><span class="loc">${loc.n} 날씨</span><span class="wx-note">예보는 여행 2주 전쯤부터 여기에 떠요</span></span><span></span>`; return; }
+  const [ic,tx]=WMO(v.code);
+  const rain = v.past ? (v.ps!=null?`강수 ${v.ps}mm`:'') : (v.pp!=null?`비 올 확률 ${v.pp}%`:'');
+  el.innerHTML=`<span class="wx-ic">${WI[ic]}</span><span class="wx-b"><span class="loc">${loc.n}</span><b>${tx}</b></span><span class="wx-t num"><span class="hi">${Math.round(v.max)}°</span><span class="lo">최저 ${Math.round(v.min)}°</span></span><div class="wx-foot"><span>${v.past?'그날 날씨':'예보'}</span>${rain?`<span>${rain}</span>`:''}</div>`;
+}
+
 
 /* ---------- 탭, 라우팅 ---------- */
 const tabs=document.getElementById('tabs'), view=document.getElementById('view');
@@ -682,9 +736,10 @@ function show(id, scroll){
       const go=()=>{ const el=document.getElementById('s-'+p.dataset.go); if(el) el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}); };
       p.addEventListener('click',go); p.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
     });
+    fillWx(id);
     const now=view.querySelector('.item.now'); if(now && !scroll) setTimeout(()=>now.scrollIntoView({block:'center'}),50);
   }
-  if(scroll){ const top=document.querySelector('.tabs').getBoundingClientRect().top+scrollY; if(scrollY>top) scrollTo({top}); }
+  if(scroll){ scrollTo({top:0, behavior:'auto'}); }
 }
 tabs.addEventListener('click',e=>{ const b=e.target.closest('.tab'); if(!b) return; if(location.hash!=='#'+b.dataset.id) location.hash=b.dataset.id; else show(b.dataset.id,true); });
 addEventListener('hashchange',()=>show(location.hash.slice(1),true));
