@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>후쿠오카 3박 4일</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFBEC; --card:#FFFFFF; --ink:#1C281D; --ink2:#5D6A5B; --line:#EDE4C6;
+  --coral:#007F00; --coral-d:#005E10; --coral-l:#FFF1B8; --sea:#FFF5CF; --label:#FFFFFF;
+  --ok:#4E8C6A;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1A12; --card:#16241A; --ink:#F5F1DC; --ink2:#B4BCA6; --line:#283A2C;
+    --coral:#1C6E2A; --coral-d:#8ED394; --coral-l:#2C2912; --sea:#2A2715; --label:#FFF5CF;
+    --ok:#7FC39C; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1A12; --card:#16241A; --ink:#F5F1DC; --ink2:#B4BCA6; --line:#283A2C;
+  --coral:#1C6E2A; --coral-d:#8ED394; --coral-l:#2C2912; --sea:#2A2715; --label:#FFF5CF;
+  --ok:#7FC39C; color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.num{font-family:"Bricolage Grotesque","Gothic A1",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+a{color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+
+/* hero */
+.hero{padding-top:28px;padding-bottom:8px}
+.hero h1{font-size:clamp(52px,16vw,76px);line-height:.95;font-weight:900;letter-spacing:-.045em;margin:0}
+.hero .who{margin:12px 0 0;color:var(--ink2);font-size:16px}
+.count{display:inline-flex;align-items:baseline;gap:8px;margin-top:18px;padding:8px 14px 8px 12px;border-radius:999px;background:var(--coral-l);color:var(--coral-d);font-weight:700}
+.count b{font-size:22px}
+.route{margin:22px 0 6px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.route .code{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.route small{display:block;font-family:"Gothic A1",sans-serif;font-size:12px;font-weight:500;color:var(--ink2);letter-spacing:0;margin-top:4px}
+.route svg{width:100%;height:46px;overflow:visible}
+
+/* day tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);padding:10px 0;margin-top:14px;border-bottom:1px solid var(--line)}
+.tabs .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.tab{appearance:none;border:0;background:transparent;color:var(--ink2);padding:6px 2px;border-radius:14px;cursor:pointer;font:inherit;text-align:center;line-height:1.15}
+.tab .d{display:block;font-size:22px;font-weight:800}
+.tab .w{display:block;font-size:12px;font-weight:500}
+.tab[aria-selected="true"]{background:var(--coral);color:#fff}
+.tab:focus-visible{outline:3px solid var(--coral-d);outline-offset:2px}
+
+/* day head */
+.dayhead{padding:24px 0 10px}
+.dayhead h2{margin:0;font-size:28px;line-height:1.2;letter-spacing:-.03em;font-weight:900}
+.dayhead p{margin:6px 0 0;color:var(--ink2)}
+
+/* map */
+.map{position:relative;margin:14px 0 4px;border-radius:26px;overflow:hidden;background:var(--sea);box-shadow:0 0 0 1px var(--line)}
+.map svg{display:block;width:100%;height:auto}
+.map .pin .lbl,.map .lbl{font:800 12.5px "Gothic A1",sans-serif;fill:#FFF1B8;paint-order:stroke;stroke:#00450A;stroke-width:3.5px;stroke-linejoin:round}
+.map .water-lbl{font:500 11px "Gothic A1",sans-serif;fill:var(--ink2);opacity:.7}
+.map .pin{cursor:pointer}
+.map .pin circle{fill:var(--label)}
+.map .pin text{font:800 11px "Bricolage Grotesque",sans-serif;fill:var(--coral-d);text-anchor:middle;dominant-baseline:central}
+.map .pin:focus-visible circle{stroke:var(--ink);stroke-width:2}
+.map-note{font-size:12px;color:var(--ink2);margin:6px 4px 0}
+
+/* timeline */
+.tl{list-style:none;margin:18px 0 0;padding:0}
+.item{display:grid;grid-template-columns:76px 1fr;gap:0 14px;position:relative;padding-bottom:22px}
+.item::before{content:"";position:absolute;left:87px;top:14px;bottom:-4px;border-left:2px dashed var(--line)}
+.item:last-child::before{display:none}
+.t{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.1;text-align:right;padding-top:2px}
+.t .est{display:block;font-family:"Gothic A1",sans-serif;font-size:11px;font-weight:500;color:var(--ink2);letter-spacing:0;margin-top:3px}
+.body{position:relative;padding-left:16px}
+.body::before{content:"";position:absolute;left:-9px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:3px solid var(--coral)}
+.item.kind-flight .body::before{background:var(--coral)}
+.item.now .body::before{background:var(--coral-d);border-color:var(--coral-d);box-shadow:0 0 0 6px var(--coral-l)}
+.now-tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--coral-d);border-radius:6px;padding:1px 7px;margin-bottom:4px}
+.body h3{margin:0;font-size:17.5px;line-height:1.35;letter-spacing:-.02em;display:flex;gap:8px;align-items:flex-start}
+.badge{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--coral);color:#fff;font:800 12px "Bricolage Grotesque",sans-serif;margin-top:1px}
+.sub{margin:2px 0 0;color:var(--ink2);font-size:14px}
+.body ul{margin:8px 0 0;padding-left:18px}
+.body li{margin:2px 0}
+.body li::marker{color:var(--coral)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;text-decoration:none;padding:7px 12px;border-radius:999px;border:1.5px solid var(--coral);color:var(--coral-d);background:transparent}
+.btn svg{width:14px;height:14px}
+.btn:focus-visible{outline:3px solid var(--coral-d);outline-offset:2px}
+
+.flight{margin-top:10px;border-radius:18px;background:var(--coral);color:#fff;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.flight .c{font-size:24px;font-weight:800;line-height:1}
+.flight .c small{display:block;font:500 11px "Gothic A1",sans-serif;opacity:.9;margin-top:4px}
+.flight .mid{text-align:center;font-size:12px;opacity:.95}
+.flight .mid hr{border:0;border-top:2px dashed rgba(255,255,255,.7);margin:6px 0}
+
+.tl .guide{margin-left:-106px;width:calc(100% + 106px)}
+.apps h3{font-size:13px;color:var(--coral-d);margin:18px 2px 8px;letter-spacing:.02em}
+.app{border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);padding:12px 14px;margin-bottom:8px}
+.app .an{font-weight:800;font-size:15.5px}
+.app .an small{font-weight:500;color:var(--ink2);font-size:12.5px;margin-left:6px}
+.app p{margin:4px 0 0;font-size:14px}
+.app .when{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;color:var(--coral-d);background:var(--coral-l);border-radius:6px;padding:1px 8px}
+.more{margin-top:8px;border-radius:16px;background:transparent;box-shadow:0 0 0 1.5px var(--coral) inset;margin-bottom:0}
+.more summary{padding:10px 14px;font-size:14px;color:var(--coral-d)}
+.more .in{padding:0 10px 10px}
+.more .food{margin-top:8px}
+.guide{margin-top:10px;border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-bottom:0}
+.guide summary{padding:11px 14px;font-size:14px;color:var(--coral-d)}
+.guide .in{padding:0 12px 14px}
+.guide svg{display:block;width:100%;height:auto;margin:2px 0 8px}
+.guide svg text{font-family:"Gothic A1",sans-serif}
+.flow{list-style:none;margin:6px 0 0;padding:0;counter-reset:f}
+.flow li{position:relative;padding:0 0 12px 34px;font-size:14px;counter-increment:f}
+.flow li::before{content:counter(f);position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--coral);color:#fff;font:800 12px "Bricolage Grotesque",sans-serif;display:grid;place-items:center}
+.flow li::after{content:"";position:absolute;left:10px;top:24px;bottom:2px;border-left:2px dashed var(--line)}
+.flow li:last-child::after{display:none}
+.flow li b{display:block;font-size:14.5px}
+.flow li.key::before{background:#E0B000;color:#1C281D}
+.gnote{font-size:12.5px;color:var(--ink2);margin:4px 2px 0}
+.food{margin-top:10px;border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);padding:12px 14px}
+.food + .food{margin-top:8px}
+.food .fn{font-weight:700;font-size:15.5px}
+.food .jp{color:var(--ink2);font-size:12.5px}
+.food .m{margin:4px 0 0;font-size:14px}
+.food .m b{color:var(--coral-d);font-weight:700}
+.food .nt{margin:4px 0 0;font-size:13.5px;color:var(--ink2)}
+.food .btns{margin-top:8px}
+.food.alt{background:transparent;box-shadow:0 0 0 1px var(--line) inset}
+.alt-tag{font-size:11px;font-weight:700;color:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-left:6px;vertical-align:2px}
+
+/* sections */
+section.block{padding:34px 0 6px}
+section.block > h2{font-size:24px;letter-spacing:-.03em;margin:0 0 12px;font-weight:900}
+.ticket{position:relative;border-radius:20px;background:var(--card);box-shadow:0 0 0 1px var(--line);padding:16px 18px;margin-bottom:12px}
+.ticket{border-left:5px solid var(--coral)}
+.ticket .k{font-size:12.5px;color:var(--ink2);font-weight:700}
+.ticket .v{font-size:17px;font-weight:700;margin-top:2px}
+.ticket .d{font-size:13.5px;color:var(--ink2);margin-top:4px}
+.ticket .p{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:66px;text-align:center;font-size:15px;font-weight:800;line-height:1.2}
+.ticket .p small{display:block;font:500 11px "Gothic A1",sans-serif;color:var(--ink2)}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:6px 4px 0;font-weight:700}
+.total .num{font-size:24px;font-weight:800}
+.hotel{border-radius:20px;background:var(--coral-l);padding:16px 18px;margin-bottom:12px}
+.hotel label{display:block;font-size:12.5px;font-weight:700;color:var(--coral-d);margin:0 0 4px}
+.hotel input{width:100%;font:inherit;font-size:16px;padding:10px 12px;border-radius:12px;border:1.5px solid transparent;background:var(--card);color:var(--ink)}
+.hotel input:focus{outline:none;border-color:var(--coral)}
+.hotel .row + .row{margin-top:10px}
+
+.check{list-style:none;margin:0;padding:0;border-radius:20px;background:var(--card);box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.check li + li{border-top:1px solid var(--line)}
+.check label{display:flex;gap:12px;align-items:center;padding:13px 16px;cursor:pointer}
+.check input{appearance:none;flex:none;width:22px;height:22px;border-radius:7px;border:2px solid var(--coral);display:grid;place-items:center;margin:0;cursor:pointer}
+.check input:checked{background:var(--coral)}
+.check input:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.check input:focus-visible{outline:3px solid var(--coral-d);outline-offset:2px}
+.check input:checked + span{color:var(--ink2);text-decoration:line-through}
+.check .why{display:block;font-size:12.5px;color:var(--ink2);text-decoration:none}
+.prog{font-size:13px;color:var(--ink2);margin:0 0 10px}
+
+details{border-radius:18px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-bottom:10px}
+summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";width:9px;height:9px;border:solid var(--coral-d);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .2s}
+details[open] summary::after{transform:rotate(-135deg)}
+details .in{padding:0 16px 14px}
+details ul{margin:0;padding-left:18px}
+details li{margin:3px 0}
+details li::marker{color:var(--coral)}
+
+footer{padding:30px 0 40px;color:var(--ink2);font-size:12.5px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="wrap hero">
+  <h1>후쿠오카<br>3박 4일</h1>
+  <p class="who">2026년 11월 11일 수요일부터 14일 토요일까지</p>
+  <div class="route" aria-label="인천에서 후쿠오카, 1시간 25분">
+    <div class="code num">ICN<small>17:25 출발</small></div>
+    <svg viewBox="0 0 200 46" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M4 40 Q100 -8 196 40" fill="none" stroke="var(--coral)" stroke-width="2.5" stroke-dasharray="6 6" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="code num" style="text-align:right">FUK<small>18:50 도착</small></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="날짜 선택">
+  <div class="wrap" role="tablist" id="tabs"></div>
+</nav>
+
+<main class="wrap" id="view"></main>
+
+<footer class="wrap">
+  식당 영업시간과 웨이팅은 방문 전 지도 앱에서 한 번 더 확인하세요. 투어 일정은 교통과 날씨에 따라 현장에서 바뀔 수 있습니다.
+</footer>
+
+<script>
+(function(){
+const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+const HOME_Q = '美野島 福岡市博多区';
+const AIRBNB = 'https://www.airbnb.co.kr/rooms/1693875417866594808';
+const WALK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M7 12l3-4 4 1 2 3 3 1"/></svg>';
+const TRAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></svg>';
+const distKm=(a,b)=>{const R=6371,toR=x=>x*Math.PI/180,dLa=toR(b[0]-a[0]),dLo=toR(b[1]-a[1]);const h=Math.sin(dLa/2)**2+Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));};
+const gmap = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+
+/* ---------- 데이터 ---------- */
+const LL = {
+  hakata:[33.5897,130.4207], oriental:[33.5893,130.4226], fuk:[33.5853,130.4593], hbt:[33.5916,130.4193],
+  yatai:[33.5917,130.4049], nakasu:[33.5893,130.4058],
+  hita:[33.3218,130.9405], yufuin:[33.2665,131.3690], kusu:[33.2860,131.1600], lala:[33.5732,130.4338],
+  tenjin:[33.5905,130.3992], shinshin:[33.5912,130.3967], mentaiju:[33.5927,130.4042], canal:[33.5897,130.4108],
+  kushida:[33.5930,130.4106], kawabata:[33.5945,130.4074], home:[33.5770,130.4203], dzst:[33.5193,130.5348], tenmangu:[33.5215,130.5355]
+};
+
+const DAYS = [
+ { id:'day1', d:'11', w:'수', title:'도착, 나카스의 첫 밤', lead:'오후에 집을 나서 저녁에 후쿠오카 도착. 무료 연결버스와 지하철로 시내에 들어와 짐 풀고 강변으로.', map:'city',
+   stops:[
+    {t:'13:25', title:'공항버스 탑승', sub:'범계역에서 인천공항 제2터미널', li:['경기공항리무진, 좌석 10번과 11번','버스가 제1터미널에 먼저 서요. 진에어는 제2터미널이니 T1에서 내리지 말고 끝까지','여권, 엔화, 휴대폰 충전 상태를 타기 전에 한 번 더'], q:'범계역 공항버스 정류장'},
+    {t:'14:45', est:true, title:'인천공항 T2 도착, 체크인', li:['진에어는 제2터미널 서편 카운터 쪽 (대한항공 계열)','출발 2시간 반 전 도착이라 수속하고 식사까지 여유'], guide:'icn'},
+    {t:'17:25', kind:'flight', title:'진에어 LJ0461', flight:['ICN','T2 17:25','FUK','18:50','1시간 25분'], li:['일반석, 수하물 15kg 포함','편도 두 장을 묶은 항공권이라 취소 규정은 항공사별로 따로']},
+    {t:'18:50', title:'후쿠오카공항 국제선 도착', li:['입국 심사 전에 Visit Japan Web QR 화면 준비','짐 찾고 입국장으로 나오면 1층'], ll:LL.fuk, m:'후쿠오카공항', q:'福岡空港 国際線ターミナル'},
+    {t:'19:30', est:true, title:'무료 연결버스, 지하철로 하카타역', li:['국제선 1층 1번 승강장에서 국내선행 무료 연결버스, 10분에서 15분','국내선 터미널 지하 후쿠오카공항역에서 지하철 공항선, 하카타역까지 2정거장 5분','지하철은 신용카드 터치로 바로 탈 수 있어요 (트래블카드 등 컨택리스)'], q:'福岡空港駅'},
+    {t:'19:50', est:true, title:'하카타역에서 숙소로', sub:'버스 약 11분 또는 걸어서 약 20분', li:['하카타역 앞 A 승강장에서 니시테츠 버스 47번 또는 48번 계통, 미노시마 정류장에서 하차','정확히 어느 정류장에서 내릴지는 체크인 안내 메시지의 주소로 구글맵 확인','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아 IC카드나 동전 준비'], q:'博多駅前A バス停'},
+    {t:'20:15', est:true, title:'숙소 셀프 체크인', sub:'미노시마, 에어비앤비 3박', li:['체크인은 16시부터 22시. 프런트 없는 셀프 체크인이라 이틀 전에 오는 안내 메시지를 미리 저장','22시가 넘으면 호스트 긴급 연락이 안 될 수 있어요'], ll:LL.home, m:'숙소', hotel:true, airbnb:true},
+    {t:'20:45', title:'저녁, 꼬치에 생맥 한잔', sub:'숙소에서 나카스까지 2km 남짓, 택시 10분 안팎', foods:[
+      {n:'야키토리 하치베', jp:'焼とり八兵衛', m:'<b>하카타식 꼬치</b>, 생맥주', nt:'후쿠오카에서 이름난 꼬치집. 양배추가 무한으로 나오는 하카타 스타일에 돼지삼겹 꼬치가 명물이에요. 나카스 근처 지점이 있어 첫날 숙소 가는 길에 좋아요. 지점마다 위치와 마감이 달라 버튼으로 확인.', q:'焼とり八兵衛'},
+      {alt:true, n:'나카스 야타이 거리', jp:'中洲屋台', m:'꼬치, 오뎅, 생맥주', nt:'강변 포장마차에서 한 잔. 자리가 좁아 2명이 오히려 들어가기 쉽고, 현금이 편해요. 비 오는 날은 쉬는 곳이 많아요.', q:'中洲屋台'},
+      {alt:true, n:'가와타로 나카스 본점', jp:'河太郎 中洲本店', m:'<b>오징어 활어회</b>, 해산물 정식', nt:'가게 안 큰 수조에서 바로 건져 올리는 요부코 오징어가 명물. 마감이 이른 편이라 도착 시간에 맞는지 꼭 확인.', q:'河太郎 中洲本店'},
+      {alt:true, n:'효탄스시', jp:'ひょうたん寿司', m:'<b>스시</b>, 제철 생선', nt:'텐진에 있는 오래된 스시집. 현지인도 줄 서는 곳이라 첫날보다 셋째 날 텐진에서 들러도 좋아요.', q:'ひょうたん寿司 天神'},
+      {alt:true, n:'코테키치 KITTE 하카타점', jp:'こて吉 KITTE博多店', m:'<b>오코노미야키</b>, 철판구이, 야키라멘', nt:'하카타역 바로 옆 KITTE 안 철판 이자카야. 분위기가 깔끔해서 생맥이랑 편하게.', q:'こて吉 KITTE博多店'}
+     ], ll:LL.yatai, m:'나카스'},
+    {t:'21:45', title:'나카스 강변 산책 후 숙소로', li:['강물에 네온이 비치는 시간이라 사진 찍기 좋아요','돌아갈 땐 택시가 제일 간단해요'], ll:LL.nakasu, m:'나카스 강변', q:'中洲 那珂川 遊歩道'}
+   ]},
+ { id:'day2', d:'12', w:'목', title:'버스투어, 히타와 유후인', lead:'와쿠와쿠 4호선. 한국어 가이드와 함께 두 마을을 여유 있게 돌고, 라라포트에서 내려 건담 보고 저녁.', map:'tour',
+   stops:[
+    {t:'07:50', title:'숙소 출발', li:['미노시마 정류장에서 48-2 계통을 타면 하카타역 치쿠시구치 바로 앞에 내려요 (집합 장소 쪽)','47번, 48번 계통은 하카타역 앞 A 쪽에 서요. 치쿠시구치까지 역 안으로 걸어서 5분 정도','버스를 놓치면 택시, 걸으면 20분 정도'], ll:LL.home, m:'숙소', hotel:true},
+    {t:'08:15', title:'집합 장소 도착', sub:'오리엔탈 호텔 후쿠오카 하카타스테이션 앞', li:['하카타역 치쿠시구치 쪽. ‘와쿠와쿠버스’ 깃발 든 가이드 찾기','08:30 미팅, 08:40 출발. 지각하면 환불이 안 돼요','자유석 선착순이라 일찍 갈수록 좋은 자리'], ll:LL.oriental, m:'하카타', q:'オリエンタルホテル福岡 博多ステーション'},
+    {t:'08:40', title:'하카타역 출발', li:['히타까지 약 70분, 가는 길에 자는 시간을 줘요','전 좌석 USB 충전 가능']},
+    {t:'09:50', title:'히타 마메다마치', sub:'약 130분 자유 시간', li:['에도시대 거리가 남아 ‘서쪽의 교토’로 불리는 곳','양조장에서 전통주 시음, 간장 만드는 과정 구경','후기 추천: 텐료 히나어전 박물관'], foods:[
+      {n:'마메다마치 길거리 간식', m:'쿠리소바 만쥬, 간장 소프트아이스크림, 카스테라', nt:'작은 상점이 많아 현금이 편해요.'}
+     ], ll:LL.hita, noRoute:true, m:'히타', q:'豆田町 日田市'},
+    {t:'12:50', title:'유후인', sub:'약 200분 자유 시간', li:['유노츠보 거리를 따라 긴린코 호수까지 걸어서 20분 남짓','플로랄빌리지: 영국 코츠월드풍 테마 마을','후기 추천: 시바견 카페, 닥터피쉬 족욕 카페, 온천'], foods:[
+      {n:'유후마부시 신 긴린코 본점', jp:'由布まぶし 心 金鱗湖本店', m:'<b>분고규 마부시</b> 솥밥, 장어와 토종닭 메뉴도 있음', nt:'유후인 대표 맛집이라 평일에도 줄을 서요. 10:30부터 18:30까지 (주문 마감 17:30), 카드가 안 되고 현금만 받아요. 버스에서 내리면 먼저 가서 줄부터.', q:'由布まぶし 心 金鱗湖本店'},
+      {alt:true, n:'유노다케안', jp:'湯の岳庵', m:'정갈한 일본 가정식, 분고규 요리', nt:'긴린코 바로 옆 료칸 가메노이벳소의 식당. 오래된 일본 가옥 분위기라 조용히 먹고 싶을 때.', q:'湯の岳庵 由布院'},
+      {alt:true, n:'유후인 금상 고로케', jp:'湯布院 金賞コロッケ', m:'금상 고로케', nt:'걸으면서 먹기 좋은 유후인 명물 간식.', q:'湯布院 金賞コロッケ'},
+      {alt:true, n:'B-speak', jp:'B-speak', m:'P롤 (롤케이크)', nt:'오후에는 품절이 잦아 점심 직후에 들르는 게 안전해요.', q:'B-speak 湯布院'},
+      {alt:true, n:'밀히', jp:'ミルヒ 湯布院', m:'반숙 치즈케이크, 푸딩', nt:'유노츠보 거리에 있는 디저트 가게. 따뜻한 치즈케이크를 걸으면서.', q:'ミルヒ 湯布院'}
+     ], ll:LL.yufuin, noRoute:true, m:'유후인', side:'b', q:'金鱗湖'},
+    {t:'16:45', title:'쿠스 휴게소', sub:'약 20분', foods:[
+      {n:'쿠스 휴게소 생요구르트', m:'생요구르트', nt:'투어 후기마다 꼭 먹으라고 하는 명물.'}
+     ], ll:LL.kusu, noRoute:true, m:'쿠스휴게소', side:'t', q:'玖珠SA'},
+    {t:'18:00', est:true, title:'라라포트에서 중도 하차', li:['내릴 거라고 가이드에게 미리 말해두기','하차 후 투어버스는 하카타역으로 바로 가요 (18:30 도착 예정)'], ll:LL.lala, noRoute:true, m:'라라포트', q:'三井ショッピングパーク ららぽーと福岡'},
+    {t:'19:00', title:'실물 크기 뉴건담 라이트쇼', sub:'라라포트 후쿠오카 오벌파크', li:['19:00부터 21:00까지 30분 간격으로 열린다는 후기가 많아요. 당일 현장 안내 확인','저녁은 라라포트 안 식당가에서 편하게']},
+    {t:'20:30', title:'숙소로 복귀', li:['택시가 제일 빨라요. 라라포트와 숙소는 같은 하카타구 남쪽이라 가까운 편','버스라면 다케시타역 서쪽 출구 정류장에서 48번 계통 하카타 방면, 미노시마에서 하차 (탑승 전 행선지 확인)'], q:'竹下駅西口 バス停', hotel:true}
+   ]},
+ { id:'day3', d:'13', w:'금', title:'텐진에서 캐널시티까지', lead:'오전엔 텐진 쇼핑, 점심 먹고 강 건너 캐널시티로 걸어서. 저녁은 하카타역에서 모츠나베.', map:'city',
+   stops:[
+    {t:'09:30', title:'숙소 출발', li:['미노시마 정류장에서 47번 또는 48번 계통으로 하카타역, 약 11분','하카타역에서 지하철 공항선 텐진역까지 3정거장 5분','날씨 좋으면 택시로 텐진 직행도 10분 남짓'], ll:LL.home, m:'숙소', hotel:true},
+    {t:'10:00', title:'텐진 쇼핑', sub:'다이마루, 파르코, 텐진 지하상가', li:['지하상가는 비 와도 걱정 없고 유럽풍 바닥과 천장이 볼거리','면세 물건은 세금 포함 가격으로 결제하고 영수증 꼭 보관, 귀국날 공항에서 환급 (준비 탭 참고)'], ll:LL.tenjin, m:'텐진', q:'天神地下街'},
+    {t:'12:30', title:'텐진에서 점심', foods:[
+      {n:'텐푸라 히라오 다이묘점', jp:'天ぷら ひらお 大名店', m:'<b>텐푸라 정식</b>', nt:'카운터 앞에서 한 점씩 바로 튀겨줘요. 무료 반찬인 오징어 젓갈이 명물. 저렴하고 회전이 빨라 줄이 있어도 금방 빠지는 편.', q:'天ぷら ひらお 大名店'},
+      {alt:true, n:'원조 하카타 멘타이쥬', jp:'元祖博多めんたい重', m:'<b>멘타이쥬</b> 명란 덮밥, 멘타이 츠케멘', nt:'나카스 강변. 명란을 제대로 먹고 싶다면 여기, 대신 웨이팅 각오.', q:'元祖博多めんたい重'},
+      {alt:true, n:'요시즈카 우나기야', jp:'吉塚うなぎ屋', m:'<b>우나쥬</b> 장어덮밥', nt:'나카스에 있는 오래된 장어집. 캐널시티로 걸어가는 길목이라 동선도 맞아요.', q:'吉塚うなぎ屋'},
+      {alt:true, n:'효탄스시', jp:'ひょうたん寿司', m:'<b>스시</b> 런치', nt:'텐진 한가운데 있는 인기 스시집. 점심 세트가 부담 없는 편이라 텐진에서 스시를 먹을 기회.', q:'ひょうたん寿司 天神'},
+      {alt:true, n:'하카타 라멘 ShinShin 텐진 본점', jp:'博多らーめん ShinShin 天神本店', m:'<b>하카타 라멘</b>', nt:'여행 중 라멘을 딱 한 번 먹는다면 여기. 맑고 깔끔한 돈코츠라 부담 없어요.', q:'博多らーめん ShinShin 天神本店'}
+     ], ll:LL.shinshin, m:'ShinShin', side:'t'},
+    {t:'14:00', title:'나카스 지나 캐널시티까지 걷기', sub:'15분에서 20분', li:['텐진에서 동쪽으로, 나카 강 다리를 건너 나카스를 지나면 캐널시티','다리 위에서 강변 사진 한 장'], ll:LL.mentaiju, m:'나카스'},
+    {t:'14:30', title:'캐널시티 하카타', li:['쇼핑몰 한가운데 운하에서 분수쇼가 정기적으로 열려요. 시간표는 현장 게시판','쇼핑백이 많아지면 택시로 숙소에 한 번 들렀다 나와도 가까워요'], ll:LL.canal, m:'캐널시티', side:'b', q:'キャナルシティ博多'},
+    {t:'18:30', title:'저녁은 모츠나베 또는 오코노미야키', sub:'캐널시티에서 하카타역까지 걸어서 15분 정도', foods:[
+      {n:'하카타 모츠나베 오오야마 하카타 데이토스', jp:'博多もつ鍋おおやま 博多デイトス', m:'<b>모츠나베</b> 미소맛 또는 간장맛', nt:'하카타역 바로 앞이라 먹고 버스 타기 편하고 카드도 돼요. 금요일 저녁이니 타베로그로 미리 예약 추천.', q:'博多もつ鍋おおやま 博多デイトス'},
+      {alt:true, n:'후키야 하카타점', jp:'ふきや 博多店', m:'<b>후쿠오카식 오코노미야키</b>, 야키소바', nt:'하카타 버스터미널 8층. 두툼하게 구운 오코노미야키에 소스와 마요네즈 듬뿍. 줄 서는 노포라 생맥이랑 곁들이기 좋아요.', q:'ふきや 博多店'},
+      {alt:true, n:'코테키치 KITTE 하카타점', jp:'こて吉 KITTE博多店', m:'<b>오코노미야키</b>, 철판구이', nt:'하카타역 바로 옆. 첫날 못 갔다면 여기서.', q:'こて吉 KITTE博多店'},
+      {alt:true, n:'하카타 모츠나베 마에다야 하카타점', jp:'博多もつ鍋 前田屋 博多店', m:'모츠나베', nt:'하카타역에서 걸어서 5분 남짓. 오오야마가 만석일 때.', q:'博多もつ鍋 前田屋 博多店'},
+      {alt:true, n:'모츠나베 라쿠텐치 하카타역앞 본점', jp:'もつ鍋 楽天地 博多駅前本店', m:'부추를 산더미처럼 올린 모츠나베', nt:'양이 넉넉하고 부담 없는 가격대. 시끌벅적한 분위기.', q:'もつ鍋 楽天地 博多駅前本店'},
+      {alt:true, n:'하카타 하나미도리', jp:'博多華味鳥', m:'<b>미즈타키</b> 닭 백숙 전골', nt:'곱창이 부담되면 하카타 또 다른 명물인 닭 전골로. 하카타역 근처에도 지점이 있어요.', q:'博多華味鳥 博多駅'}
+     ], ll:LL.hakata, m:'하카타역'},
+    {t:'20:30', title:'숙소 복귀', li:['하카타역 앞 A 승강장에서 47번 또는 48번 계통, 약 11분. 걸어도 20분 정도','내일 10시 체크아웃이니 짐은 오늘 밤에 싸두기','면세로 산 물건은 뜯지 말고 기내용 가방 하나에 모아두기'], hotel:true}
+   ]},
+ { id:'day4', d:'14', w:'토', title:'다자이후 산책, 그리고 귀국', lead:'체크아웃하고 짐 들고 다자이후로. 참배길 걸으며 우메가에모치 먹고 텐만구 둘러본 뒤, 하카타로 돌아오지 않고 공항으로 바로 가요.', map:'city',
+   stops:[
+    {t:'10:00', title:'체크아웃', li:['체크아웃은 10시. 체크아웃 후 짐 보관은 안 되는 숙소','캐리어가 있으니 하카타 버스터미널까지는 택시가 편해요 (10분 안팎)'], ll:LL.home, m:'숙소', hotel:true},
+    {t:'10:30', title:'다자이후행 버스', sub:'하카타 버스터미널에서 약 40분', li:['하카타 버스터미널에서 니시테츠 다자이후행 직행 버스 ‘旅人(타비토)’. 타는 승강장은 터미널 안내판 확인','캐리어는 들고 타는 일반 버스라 한쪽에 잘 세워두기','버스가 불편하면 니시테츠 전철: 텐진에서 후츠카이치 환승, 다자이후역까지 약 30분'], ll:LL.hbt, m:'버스터미널', q:'博多バスターミナル'},
+    {t:'11:15', est:true, title:'다자이후역에 짐 맡기기', li:['역 안팎 코인로커에 캐리어 넣기. 대형 칸은 토요일 오전에 금방 차요','꽉 찼으면 역 앞 관광안내소나 주변 가게의 유료 짐 보관','ecbo cloak 앱으로 근처 보관 장소를 미리 예약해두면 안심'], ll:LL.dzst, m:'다자이후역', side:'b', q:'太宰府駅 コインロッカー'},
+    {t:'11:30', title:'참배길과 다자이후 텐만구', sub:'역에서 걸어서 5분부터', li:['역에서 텐만구까지 이어지는 참배길 상점가. 갓 구운 우메가에모치를 하나씩 들고 걷기','구마 겐고가 설계한 나무 격자 스타벅스가 참배길 중간에 있어요','학문의 신을 모신 신사. 다리 셋을 건너 본전으로, 소 동상 머리를 쓰다듬으면 똑똑해진다는 이야기','11월 중순이면 경내 단풍이 물들기 시작할 무렵'], ll:LL.tenmangu, m:'다자이후 텐만구', q:'太宰府天満宮'},
+    {t:'12:30', title:'참배길에서 점심', foods:[
+      {n:'카사노야', jp:'かさの家', m:'<b>우메가에모치</b>, 정식과 우동', nt:'참배길에서 가장 이름난 우메가에모치 가게. 안쪽에 식당 자리가 있어 점심과 디저트를 한 번에.', q:'かさの家 太宰府'},
+      {alt:true, n:'우메노하나 다자이후점', jp:'梅の花 太宰府店', m:'두부와 유바 코스 요리', nt:'정원이 보이는 조용한 자리. 천천히 먹고 싶을 때, 미리 예약하면 좋아요.', q:'梅の花 太宰府店'},
+      {alt:true, n:'스타벅스 다자이후 텐만구 오모테산도점', jp:'スターバックス 太宰府天満宮表参道店', m:'커피, 가벼운 디저트', nt:'건물 자체가 볼거리. 사람이 많아 테이크아웃이 편해요.', q:'スターバックス 太宰府天満宮表参道店'},
+      {alt:true, n:'텐잔', jp:'天山 太宰府', m:'우메가에모치, 계절 떡', nt:'카사노야 줄이 길면 여기. 갓 구운 걸 바로 먹을 수 있어요.', q:'天山 太宰府'}
+     ], ll:LL.tenmangu, m:'다자이후 텐만구'},
+    {t:'13:30', title:'기념품 조금, 짐 찾기', li:['우메가에모치는 당일에 먹는 게 제일 맛있어서 선물용보다 공항 가기 전 간식으로','다자이후 가게는 면세가 안 되는 곳이 많아요. 면세 쇼핑은 셋째 날 텐진, 캐널시티에서 미리','짐 찾아서 공항행 버스 정류장으로'], ll:LL.dzst, m:'다자이후역'},
+    {t:'13:50', est:true, title:'다자이후에서 공항 국제선 직행 버스', sub:'약 25분에서 30분', li:['다자이후역 근처 정류장에서 후쿠오카공항 국제선 터미널행 직행 버스','배차가 한 시간에 몇 대 정도라 시간표를 미리 보고 14시 전후 버스로','놓치면 택시로도 25분 안팎'], q:'太宰府 福岡空港 バス'},
+    {t:'14:30', title:'면세 환급 먼저, 그다음 체크인', sub:'국제선 3층 출발 로비', li:['짐 부치기 전에 출발 로비의 세관 키오스크에서 여권 스캔. 짐을 먼저 부치면 환급을 못 받아요','빨간 판정이 나오면 세관 검사대에서 물건 보여주기. 면세품은 꺼내기 쉬운 가방에','그다음 에어서울 카운터 체크인과 수하물, 출국 심사','환급 방법(현금, 카드 취소)은 구매한 매장이 안내한 대로'], ll:LL.fuk, m:'후쿠오카공항', guide:'fuk'},
+    {t:'17:00', kind:'flight', title:'에어서울 RS0458', flight:['FUK','17:00','ICN','18:35','1시간 35분'], li:['일반석, 수하물 15kg 포함','에어서울도 인천공항 제2터미널 도착 (도착 시각은 소요 시간 기준 예상)','한국 입국 면세 한도는 1인 800달러, 일본 세금 포함 영수증 금액 기준으로 보일 수 있으니 영수증 정리']}
+   ]}
+];
+
+const BOOK = [
+  {k:'항공권, 성인 2명', v:'진에어 LJ0461 / 에어서울 RS0458', d:'가는 편 11.11 17:25 인천 T2, 오는 편 11.14 17:00 후쿠오카, 인천 T2 도착'},
+  {k:'공항버스, 2명', v:'범계역에서 인천공항 T2', d:'11.11 13:25, 경기공항리무진, 좌석 10번 11번'},
+  {k:'숙소, 3박', v:'에어비앤비 미노시마 2026년 신축 30㎡', d:'11.11 체크인 16시부터, 11.14 체크아웃 10시', link:'https://www.airbnb.co.kr/rooms/1693875417866594808', linkT:'에어비앤비에서 보기'},
+  {k:'버스투어, 2명', v:'와쿠와쿠 4호선 히타 유후인', d:'11.12 08:30 집합, 네이버 예약', link:'https://www.klook.com/ko/activity/124367-wakuwaku-bus-one-day-tour-hita-yufuin/', linkT:'투어 코스 소개'}
+];
+
+const APPS = [
+  {g:'길찾기', items:[
+    {n:'Google 지도', d:'일본에서는 구글 지도 대중교통 정보가 가장 정확해요. 버스 계통 번호, 타는 승강장, 출발 시각까지 나와요. 숙소 주변과 하카타역 일대는 오프라인 지도로 저장해 두기.', w:'이 페이지의 ‘가는 길’ 버튼도 구글 지도로 열려요'},
+    {n:'니시테츠 버스나비', jp:'にしてつバスナビ', d:'니시테츠 버스가 지금 어디쯤 오는지 실시간으로 보여줘요.', w:'숙소 정류장에서 버스 기다릴 때'},
+    {n:'NAVITIME 또는 乗換案内', d:'지하철, JR 시간표와 환승 검색. 구글 지도가 헷갈릴 때 확인용.', w:'백업용'}
+  ]},
+  {g:'택시', items:[
+    {n:'GO', d:'일본에서 가장 많이 쓰는 택시 호출 앱이고 후쿠오카도 돼요. 카드를 등록해 두면 내릴 때 결제 없이 바로 내려요.', w:'첫날 나카스, 라라포트에서 숙소로'},
+    {n:'카카오T', d:'일본에서도 호출이 되고, 실제로는 GO 택시와 연결돼요. 한국어 화면으로 쓰고 싶으면 이쪽.', w:'GO 대신 써도 되는 대안'}
+  ]},
+  {g:'결제와 교통카드', items:[
+    {n:'아이폰 지갑 앱 Suica', d:'지갑 앱에서 교통카드로 Suica를 추가하면 지하철, 니시테츠 버스, 편의점에서 폰만 대면 돼요. 익스프레스 카드를 켜두면 화면을 안 켜도 되고, 충전은 애플페이 등록 카드나 편의점 현금으로.', w:'출국 전에 한국에서 발급'},
+    {n:'안드로이드라면 실물 IC카드', d:'안드로이드는 일본 교통카드 모바일 발급이 어려워요. 도착해서 역 발매기에서 SUGOCA나 nimoca 같은 실물 카드를 사서 충전.', w:'첫날 하카타역에서'},
+    {n:'트래블카드', d:'트래블월렛, 트래블로그처럼 엔화를 미리 충전해 쓰는 카드. 결제도 되고 세븐일레븐 ATM에서 엔화 현금 출금도 돼요.', w:'현금만 받는 식당 대비'}
+  ]},
+  {g:'번역과 맛집', items:[
+    {n:'Papago 또는 구글 번역', d:'카메라로 메뉴판이나 안내문을 비추면 바로 번역돼요.', w:'야타이, 마메다마치 상점'},
+    {n:'타베로그', d:'일본 맛집 앱. 모츠나베 오오야마 온라인 예약이 여기서 돼요.', w:'13일 저녁 18:30 예약'}
+  ]},
+  {g:'예약과 입국', items:[
+    {n:'Visit Japan Web', d:'앱이 아니라 웹사이트. 입국 심사와 세관 정보를 미리 등록하면 QR 하나로 통과해요.', w:'출국 며칠 전 등록', link:'https://www.vjw.digital.go.jp/', lt:'Visit Japan Web 열기'},
+    {n:'진에어, 에어서울 앱', d:'모바일 체크인이 열리면 미리 해두고 공항에서 셀프 백드롭으로 짐만 부치면 빨라요.', w:'출발 전날'},
+    {n:'에어비앤비 앱', d:'셀프 체크인 안내와 도어락 정보가 메시지로 와요. 오프라인에서도 보이게 캡처.', w:'11월 9일쯤 안내 도착'},
+    {n:'네이버 예약', d:'버스투어 예약 내역과 집합 안내 확인.', w:'12일 아침'}
+  ]},
+  {g:'짐과 안전', items:[
+    {n:'ecbo cloak', d:'역 주변 가게에 짐을 맡기는 예약 앱. 미리 예약하면 코인로커가 꽉 차도 걱정 없어요.', w:'14일 다자이후 코인로커가 찼을 때'},
+    {n:'Safety tips', d:'일본 관광청이 만든 재난 알림 앱. 지진이나 기상 경보를 한국어로 알려줘요.', w:'설치만 해두기'}
+  ]},
+  {g:'챙기면 편한 것', items:[
+    {n:'동전 지갑', d:'일본은 동전을 많이 써요. 버스 요금, 코인로커에도 필요.'},
+    {n:'손수건', d:'화장실에 종이타월이 없는 곳이 많아요.'},
+    {n:'작은 비닐봉투', d:'길에 쓰레기통이 거의 없어서 숙소까지 들고 가야 해요.'},
+    {n:'가벼운 겉옷', d:'11월 중순 후쿠오카는 아침저녁으로 쌀쌀해요. 투어 날은 아침 일찍 나가니 특히.'}
+  ]}
+];
+
+const CHECK = [
+  ['passport','여권 2개','유효기간 확인, 면세 환급 때도 필요'],
+  ['vjw','Visit Japan Web 등록','입국 심사와 세관 QR'],
+  ['yen','엔화 현금','유후마부시 신, 야타이, 히타 상점가, 버스는 현금'],
+  ['ic','IC카드 또는 동전','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아요'],
+  ['tour','버스투어 네이버 예약 확인','집합 시간과 예약자 이름 캡처'],
+  ['guestlist','숙박자 명부 제출','에어비앤비 예약 후 온라인으로, 여권 사본 필요'],
+  ['checkin','체크인 안내 메시지 저장','11월 9일쯤 도착, 오프라인에서도 보이게 캡처'],
+  ['sim','eSIM 또는 로밍','지도랑 이 페이지 보려면 필수'],
+  ['suica','교통카드 준비','아이폰은 지갑 앱 Suica, 안드로이드는 현지에서 실물 카드'],
+  ['offline','구글 오프라인 지도 저장','숙소 주변, 하카타역, 텐진'],
+  ['apps','앱 미리 깔기','준비 탭의 앱 목록 참고'],
+  ['plug','돼지코 (110V 변환)','일본은 11자 콘센트'],
+  ['battery','보조배터리','투어버스는 USB 충전 가능'],
+  ['motsu','모츠나베 예약','금요일 저녁 18:30'],
+  ['bag','면세품 모을 기내용 가방','공항 세관에서 꺼내 보여줄 수 있게'],
+  ['umbrella','접이식 우산','11월 중순 후쿠오카는 선선한 가을']
+];
+
+/* ---------- 시간 ---------- */
+function seoulNow(){
+  const p = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+  const g = t => p.find(x=>x.type===t).value;
+  return {date:`${g('year')}-${g('month')}-${g('day')}`, min:(+g('hour')%24)*60 + +g('minute')};
+}
+const NOW = seoulNow();
+const DATES = {day1:'2026-11-11',day2:'2026-11-12',day3:'2026-11-13',day4:'2026-11-14'};
+const todayId = Object.keys(DATES).find(k=>DATES[k]===NOW.date);
+
+/* ---------- 지도 ---------- */
+function rng(seed){ return () => (seed = (seed*16807)%2147483647) / 2147483647; }
+function wobble(pts, seed, amt){
+  const r = rng(seed), out=[];
+  for(let i=0;i<pts.length;i++){
+    const a=pts[i], b=pts[(i+1)%pts.length];
+    for(let s=0;s<6;s++){ const t=s/6; out.push([a[0]+(b[0]-a[0])*t+(r()-.5)*amt, a[1]+(b[1]-a[1])*t+(r()-.5)*amt]); }
+  }
+  return out;
+}
+const smooth = pts => { // closed catmull-rom style
+  let d=''; const n=pts.length;
+  for(let i=0;i<n;i++){
+    const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n],p3=pts[(i+2)%n];
+    if(i===0) d+=`M${p1[0].toFixed(1)} ${p1[1].toFixed(1)}`;
+    const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6], c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
+    d+=`C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d+'Z';
+};
+const line = pts => pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join('');
+
+const BASE = {
+  city:{
+    water:[ [[33.660,130.300],[33.660,130.520],[33.640,130.462],[33.625,130.440],[33.615,130.428],[33.611,130.418],[33.604,130.411],[33.606,130.403],[33.600,130.397],[33.597,130.389],[33.601,130.375],[33.597,130.360],[33.600,130.300]] ],
+    rivers:[ [[33.540,130.411],[33.565,130.407],[33.580,130.405],[33.590,130.4035],[33.596,130.4015],[33.601,130.398]],
+             [[33.5865,130.4048],[33.590,130.4075],[33.595,130.4062],[33.6025,130.4030]],
+             [[33.545,130.452],[33.565,130.440],[33.582,130.430],[33.598,130.4215],[33.609,130.417]] ],
+    waterLabel:{ll:[33.616,130.385], t:'하카타만'}
+  },
+  tour:{
+    water:[ [[33.80,130.20],[33.80,130.62],[33.66,130.55],[33.625,130.47],[33.607,130.42],[33.600,130.39],[33.605,130.34],[33.58,130.26],[33.60,130.20]],
+            [[33.62,131.80],[33.40,131.80],[33.20,131.80],[33.22,131.66],[33.28,131.56],[33.33,131.52],[33.40,131.53],[33.50,131.62],[33.60,131.55]] ],
+    rivers:[],
+    route:['oriental','hita','yufuin','kusu','lala','home'],
+    waterLabel:{ll:[33.72,130.20], t:'하카타만'}
+  }
+};
+
+function mapNos(day){ let n=0; return day.stops.map(st=>st.ll?++n:0); }
+function buildMap(day){
+  const NO=mapNos(day);
+  const W=360, H = day.map==='tour' ? 250 : 300, pad=34;
+  const pts = day.stops.map((s,i)=>s.ll?{i, ll:s.ll, m:s.m}:null).filter(Boolean);
+  // dedupe identical locations
+  const uniq=[]; pts.forEach(p=>{ p.side=day.stops[p.i].side; if(!uniq.some(u=>Math.abs(u.ll[0]-p.ll[0])<1e-4&&Math.abs(u.ll[1]-p.ll[1])<1e-4)) uniq.push(p); });
+  let la=uniq.map(p=>p.ll[0]), lo=uniq.map(p=>p.ll[1]);
+  let minLa=Math.min(...la),maxLa=Math.max(...la),minLo=Math.min(...lo),maxLo=Math.max(...lo);
+  const cos=Math.cos((minLa+maxLa)/2*Math.PI/180);
+  let sx=(maxLo-minLo)*cos||0.01, sy=(maxLa-minLa)||0.01;
+  const k=Math.min((W-pad*2)/sx,(H-pad*2)/sy);
+  const cx=(minLo+maxLo)/2, cy=(minLa+maxLa)/2;
+  const P = ll => [W/2+(ll[1]-cx)*cos*k, H/2-(ll[0]-cy)*k];
+  const base=BASE[day.map], seed=day.id.charCodeAt(3)*977;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${day.title} 지도">`;
+  s+=`<rect width="${W}" height="${H}" fill="var(--coral)"/>`;
+  base.water.forEach((poly,j)=>{ s+=`<path d="${smooth(wobble(poly.map(P),seed+j,5))}" fill="var(--sea)"/>`; });
+  base.rivers.forEach(r=>{ s+=`<path d="${line(r.map(P))}" fill="none" stroke="var(--sea)" stroke-width="${day.map==='tour'?2:4}" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>`; });
+  const wl=P(base.waterLabel.ll); if(wl[0]>10&&wl[0]<W-40&&wl[1]>14&&wl[1]<H-10) s+=`<text class="water-lbl" x="${wl[0]}" y="${wl[1]}">${base.waterLabel.t}</text>`;
+
+  // route
+  let seq = day.map==='tour' ? base.route.map(k=>({ll:LL[k]})) : uniq;
+  for(let i=0;i<seq.length-1;i++){
+    const a=P(seq[i].ll), b=P(seq[i+1].ll);
+    const mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, dx=b[0]-a[0], dy=b[1]-a[1], len=Math.hypot(dx,dy);
+    if(len<14) continue;
+    const bend = (i%2?1:-1)*Math.min(26,len*.18);
+    const qx=mx-dy/len*bend, qy=my+dx/len*bend;
+    s+=`<path d="M${a[0]} ${a[1]} Q${qx} ${qy} ${b[0]} ${b[1]}" fill="none" stroke="var(--label)" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" opacity=".95"/>`;
+    // arrow at curve midpoint
+    const tx=.25*a[0]+.5*qx+.25*b[0], ty=.25*a[1]+.5*qy+.25*b[1];
+    const ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+    s+=`<path d="M-4 -4 L2 0 L-4 4" transform="translate(${tx.toFixed(1)} ${ty.toFixed(1)}) rotate(${ang.toFixed(1)})" fill="none" stroke="var(--label)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+  // pins with simple collision nudge
+  const placed=[];
+  uniq.forEach(p=>{
+    let [x,y]=P(p.ll);
+    placed.forEach(q=>{ const d=Math.hypot(q[0]-x,q[1]-y); if(d<24){ y+= (y>=q[1]?1:-1)*(24-d); } });
+    placed.push([x,y]);
+    const right = x < W-90;
+    const idxs = day.stops.map((st,i)=>st.ll&&Math.abs(st.ll[0]-p.ll[0])<1e-4&&Math.abs(st.ll[1]-p.ll[1])<1e-4?i:-1).filter(i=>i>=0);
+    const txt = idxs.map(i=>NO[i]).join(',');
+    const pw = txt.length>1 ? 8+txt.length*6.5 : 20;
+    const off = Math.max(0,(pw-20)/2);
+    s+=`<g class="pin" tabindex="0" role="button" aria-label="${p.m}, ${txt}번 일정으로 이동" data-go="${idxs[0]+1}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">`+
+       (txt.length>1?`<rect x="${-pw/2}" y="-10" width="${pw}" height="20" rx="10" style="fill:var(--label)"/>`:`<circle r="10"/>`)+`<text>${txt}</text>`+
+       (p.side==='t'||p.side==='b' ? `<text class="lbl" x="0" y="${p.side==='t'?-19:21}" style="text-anchor:middle;dominant-baseline:central">${p.m}</text>` : `<text class="lbl" x="${right?15+off:-15-off}" y="1" style="text-anchor:${right?'start':'end'};dominant-baseline:central">${p.m}</text>`)+`</g>`;
+  });
+  s+='</svg>';
+  return `<figure class="map" style="margin-left:0;margin-right:0">${s}</figure>` +
+    (day.map==='tour' ? `<p class="map-note">점선은 투어버스 동선이에요. 라라포트에서 내리면 그 뒤는 직접 이동.</p>` : `<p class="map-note">번호를 누르면 해당 일정으로 이동해요.</p>`);
+}
+
+/* ---------- 터미널 안내 ---------- */
+function icnSvg(){
+  const L=['A','B','C','D','E','F'], E=['G','H','J'];
+  let c='';
+  L.forEach((k,i)=>{ const x=22+i*32; c+=`<rect x="${x}" y="78" width="24" height="46" rx="6" fill="var(--coral)"/><text x="${x+12}" y="106" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">${k}</text>`; });
+  E.forEach((k,i)=>{ const x=246+i*30; c+=`<rect x="${x}" y="78" width="24" height="46" rx="6" fill="var(--coral-l)" stroke="var(--line)"/><text x="${x+12}" y="106" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink2)">${k}</text>`; });
+  return `<svg viewBox="0 0 340 300" role="img" aria-label="인천공항 제2터미널 3층 출발층 카운터 배치 약도">
+  <text x="170" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink2)">↑ 출국장 입구, 보안검색, 출국심사, 탑승동 (200번대 게이트)</text>
+  <path d="M30 26 L30 36 M310 26 L310 36" stroke="var(--ink2)" stroke-width="2"/>
+  <rect x="10" y="40" width="320" height="150" rx="18" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
+  <rect x="16" y="68" width="196" height="66" rx="12" fill="none" stroke="var(--coral)" stroke-width="2" stroke-dasharray="5 4"/>
+  ${c}
+  <rect x="214" y="80" width="26" height="42" rx="6" fill="none" stroke="var(--ink2)" stroke-dasharray="3 3"/>
+  <text x="227" y="98" text-anchor="middle" font-size="9" fill="var(--ink2)">셀프</text><text x="227" y="110" text-anchor="middle" font-size="9" fill="var(--ink2)">존</text>
+  <text x="114" y="58" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--coral-d)">서편 A~F  대한항공, 진에어</text>
+  <text x="280" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink2)">동편 G~J</text>
+  <text x="280" y="144" text-anchor="middle" font-size="10" fill="var(--ink2)">아시아나 계열</text>
+  <text x="114" y="152" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">여기서 LJ0461 전광판 확인</text>
+  <text x="114" y="170" text-anchor="middle" font-size="10.5" fill="var(--ink2)">진에어 열은 서편 안에서 전광판 표시를 따라</text>
+  <text x="22" y="208" font-size="11" font-weight="700" fill="var(--ink2)">← 서편</text><text x="318" y="208" text-anchor="end" font-size="11" font-weight="700" fill="var(--ink2)">동편 →</text>
+  <path d="M114 262 L114 196" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"/><path d="M106 205 L114 194 L122 205" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="40" y="262" width="260" height="30" rx="15" fill="var(--coral-l)"/>
+  <text x="170" y="281" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">공항버스 하차 3층 출발층 도로 (T1 다음 정류장)</text>
+</svg>`;
+}
+const GUIDES = {
+  icn:{s:'인천공항 T2 안에서 어디로 가나 펼쳐보기', body:()=> icnSvg()+`<ol class="flow">
+    <li><b>T2에서 내리기</b>버스가 T1에 먼저 서니 그때 내리지 않기. T2 정류장은 3층 출발층 바로 앞</li>
+    <li class="key"><b>전광판에서 LJ0461 찾기</b>들어가자마자 보이는 출발 안내 전광판에 편명과 카운터 열이 나와요</li>
+    <li><b>서편 카운터에서 체크인, 수하물</b>모바일 체크인을 미리 했다면 셀프 백드롭으로 짐만 부쳐도 돼요</li>
+    <li><b>출국장 입구로</b>보안검색, 출국심사. 자동출입국심사 게이트를 쓰면 빨라요</li>
+    <li><b>게이트로</b>T2 탑승구는 200번대, 탑승은 보통 출발 30~40분 전 시작</li></ol>
+    <p class="gnote">약도는 구역 위치를 쉽게 보려고 단순화한 그림이에요. 정확한 열은 당일 전광판이나 인천공항 홈페이지에서 편명으로 조회.</p>
+    <div class="btns"><a class="btn" href="https://www.airport.kr/" target="_blank" rel="noopener">인천공항 홈페이지</a></div>`},
+  fuk:{s:'후쿠오카공항 국제선 출국 순서 펼쳐보기', body:()=>`<ol class="flow">
+    <li><b>국제선 터미널 도착</b>직행 버스와 택시는 1층에 내려요. 에스컬레이터로 3층 출발 로비</li>
+    <li class="key"><b>세관 키오스크에서 면세 확인 (가장 먼저)</b>출발 로비의 세관 키오스크에 여권 스캔. 짐 부치기 전이어야 해요</li>
+    <li class="key"><b>빨간 판정이면 세관 검사대</b>면세로 산 물건을 꺼내 보여주기. 초록이면 바로 다음 단계</li>
+    <li><b>에어서울 카운터에서 체크인, 수하물</b>전광판에서 RS0458 카운터 확인</li>
+    <li><b>보안검색, 출국심사</b>출국심사 후에는 출발 로비로 돌아올 수 없어요</li>
+    <li><b>환급 받기, 면세점, 게이트</b>환급은 산 매장이 안내한 방식대로 (현금 또는 카드 결제 취소)</li></ol>
+    <p class="gnote">키오스크와 검사대 위치는 현장 안내 표지를 따라가세요.</p>`}
+};
+
+/* ---------- 렌더 ---------- */
+
+const CLOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+function foodCard(f){
+  return `<div class="food${f.alt?' alt':''}"><div class="fn">${f.n}</div>`+
+    (f.jp?`<div class="jp">${f.jp}</div>`:'')+
+    `<p class="m">${f.m}</p>`+(f.nt?`<p class="nt">${f.nt}</p>`:'')+
+    (f.q?`<div class="btns"><a class="btn" href="${gmap(f.q)}" target="_blank" rel="noopener">${CLOCK}구글에서 영업시간 확인</a></div>`:'')+
+    `</div>`;
+}
+function foodsBlock(list){
+  const main=list.filter(f=>!f.alt), more=list.filter(f=>f.alt);
+  let h=main.map(foodCard).join('');
+  if(more.length) h+=`<details class="more"><summary>다른 선택지 ${more.length}곳 더 보기</summary><div class="in">${more.map(foodCard).join('')}</div></details>`;
+  return h;
+}
+
+function curIdx(day){
+  if(day.id!==todayId) return -1;
+  let idx=-1; day.stops.forEach((s,i)=>{ const [h,m]=s.t.split(':').map(Number); if(h*60+m<=NOW.min) idx=i; });
+  return idx;
+}
+
+function renderDay(day){
+  const cur=curIdx(day), NO=mapNos(day);
+  let prev = day.id==='day1' ? null : LL.home, prevName='숙소';
+  let h=`<div class="dayhead"><h2>${day.title}</h2><p>${day.lead}</p></div>`;
+  h+=buildMap(day);
+  h+='<ol class="tl">';
+  day.stops.forEach((s,i)=>{
+    const n=i+1;
+    h+=`<li class="item${s.kind==='flight'?' kind-flight':''}${i===cur?' now':''}" id="s-${n}">`+
+      `<div class="t num">${s.t}${s.est?'<span class="est">예상</span>':''}</div><div class="body">`+
+      (i===cur?'<span class="now-tag">지금</span>':'')+
+      `<h3>${s.ll?`<span class="badge" aria-hidden="true">${NO[i]}</span>`:''}<span>${s.title}</span></h3>`+
+      (s.sub?`<p class="sub">${s.sub}</p>`:'');
+    if(s.flight){ const f=s.flight; h+=`<div class="flight"><div class="c num">${f[0]}<small>${f[1]}</small></div><div class="mid">${f[4]}<hr></div><div class="c num" style="text-align:right">${f[2]}<small>${f[3]}</small></div></div>`; }
+    if(s.li) h+='<ul>'+s.li.map(x=>`<li>${x}</li>`).join('')+'</ul>';
+    if(s.foods) h+=foodsBlock(s.foods);
+    if(s.guide){ const g=GUIDES[s.guide]; h+=`<details class="guide"><summary>${g.s}</summary><div class="in">${g.body()}</div></details>`; }
+    const dest = s.ll || (s.hotel ? LL.home : null);
+    let btn='';
+    if(dest && prev && !s.noRoute && distKm(prev,dest)>0.15){
+      const walk = distKm(prev,dest) < 1.3;
+      const dq = s.hotel&&!s.q ? `${dest[0]},${dest[1]}` : (s.q||`${dest[0]},${dest[1]}`);
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${prev[0]},${prev[1]}&destination=${encodeURIComponent(dq)}&travelmode=${walk?'walking':'transit'}`;
+      btn += `<a class="btn" href="${url}" target="_blank" rel="noopener">${walk?WALK:TRAIN}${prevName}에서 ${walk?'걸어가는 길':'가는 길'}</a>`;
+    }
+    if(s.airbnb) btn += `<a class="btn" href="${AIRBNB}" target="_blank" rel="noopener">에어비앤비 숙소 보기</a>`;
+    if(btn) h+=`<div class="btns">${btn}</div>`;
+    if(dest){ prev=dest; prevName = s.m || '숙소'; }
+    h+='</div></li>';
+  });
+  h+='</ol>';
+  return h;
+}
+
+function renderInfo(){
+  let h='<div class="dayhead"><h2>예약과 준비</h2><p>예약 내역, 숙소 메모, 챙길 것, 이동 방법을 한 곳에.</p></div>';
+  h+='<section class="block" style="padding-top:8px"><h2>예약 내역</h2>';
+  BOOK.forEach(b=>{
+    h+=`<div class="ticket"><div class="k">${b.k}</div><div class="v">${b.v}</div><div class="d">${b.d}</div>`+
+      (b.link?`<div class="btns"><a class="btn" href="${b.link}" target="_blank" rel="noopener">${b.linkT}</a></div>`:'')+`</div>`;
+  });
+  h+='</section>';
+
+  h+=`<section class="block"><h2>숙소</h2><div class="hotel">
+    <div style="font-weight:900;font-size:18px;letter-spacing:-.02em">미노시마 에어비앤비, 3박</div>
+    <p style="margin:4px 0 10px;color:var(--ink2);font-size:13.5px">2026년 신축 단독 30㎡, 더블 침대 1개와 소파베드 1개. 후기 4.95점, 슈퍼호스트 Alex</p>
+    <ul style="margin:0 0 12px;padding-left:18px;font-size:14px">
+      <li>체크인 16:00~22:00 셀프, 안내는 이틀 전 메시지로</li>
+      <li>체크아웃 10:00, 체크아웃 후 짐 보관 안 됨</li>
+      <li>체크인 당일은 11시부터 짐만 먼저 맡길 수 있음</li>
+      <li>예약 후 숙박자 명부 온라인 제출 필수 (이름, 주소, 여권 사본)</li>
+      <li>하카타역에서 버스 약 11분, 내려서 도보 2분. 공항에서 택시 약 15분</li>
+      <li>주방, 세탁기, 욕조, 에어컨 난방 (바닥 난방 없음). 매일 청소는 없음</li>
+      <li>슈퍼마켓 도보 4분, 편의점 5분, 드럭스토어 8분</li>
+    </ul>
+    <div class="btns" style="margin:0 0 12px"><a class="btn" href="${AIRBNB}" target="_blank" rel="noopener">에어비앤비에서 보기</a><a class="btn" href="${gmap(HOME_Q)}" target="_blank" rel="noopener">${PIN}미노시마 지도</a></div>
+    <div class="row"><label for="hm">메모 (도어락 번호, 정확한 주소 등)</label><input id="hm" autocomplete="off"></div>
+  </div><p class="map-note">지도에 찍힌 숙소 위치는 에어비앤비가 보여주는 대략적인 위치예요. 정확한 주소는 체크인 안내 메시지 기준. 메모는 이 휴대폰에만 저장돼요.</p></section>`;
+
+  h+='<section class="block apps"><h2>깔아두면 편한 것</h2>';
+  APPS.forEach(g=>{ h+=`<h3>${g.g}</h3>`; g.items.forEach(a=>{ h+=`<div class="app"><div class="an">${a.n}${a.jp?`<small>${a.jp}</small>`:''}</div><p>${a.d}</p>${a.w?`<span class="when">${a.w}</span>`:''}${a.link?`<div class="btns"><a class="btn" href="${a.link}" target="_blank" rel="noopener">${a.lt}</a></div>`:''}</div>`; }); });
+  h+='</section>';
+  h+='<section class="block"><h2>챙길 것</h2><p class="prog" id="prog"></p><ul class="check">';
+  CHECK.forEach(c=>{ h+=`<li><label><input type="checkbox" data-k="${c[0]}"><span>${c[1]}<span class="why">${c[2]}</span></span></label></li>`; });
+  h+='</ul></section>';
+
+  h+=`<section class="block"><h2>알아두면 좋은 것</h2>
+  <details><summary>투어 취소와 확정 규정</summary><div class="in"><ul>
+    <li>예약 후 48시간 안에 확정</li>
+    <li>이용일 24시간 전까지 취소하면 전액 환불 (현지 시간 기준)</li>
+    <li>최소 8명이 안 모이면 일정 변경 또는 환불</li>
+    <li>악천후로 업체가 취소하면 날짜 변경 또는 전액 환불</li>
+    <li>노쇼나 지각은 환불 불가</li></ul></div></details>
+  <details><summary>투어 포함과 불포함</summary><div class="in"><ul>
+    <li>포함: 한국어 가이드, 디럭스 버스</li>
+    <li>불포함: 식사, 음료, 개인 경비</li>
+    <li>캐리어가 있으면 예약처에 미리 알리기</li>
+    <li>투어 복귀는 오리엔탈 호텔 1층 로손 편의점 앞</li></ul></div></details>
+  <details><summary>항공권 주의</summary><div class="in"><ul>
+    <li>편도 두 장을 묶은 항공권이라 구간별 항공사 규정이 따로 적용</li>
+    <li>진에어, 에어서울 모두 인천 제2터미널 (에어서울은 2025년 9월 T2로 이전)</li>
+    <li>경기공항리무진은 T1에 먼저 서고 T2가 다음. T2에서 내리기</li>
+    <li>위탁 수하물은 각각 15kg</li></ul></div></details>
+  <details><summary>공항에서 시내로</summary><div class="in"><ul>
+    <li><b>무료 연결버스와 지하철 (추천)</b>: 국제선 1층 1번 승강장에서 국내선행 무료 연결버스, 10분에서 15분, 5분에서 10분 간격. 국내선 터미널 지하 후쿠오카공항역에서 지하철 공항선, 하카타역까지 2정거장 5분 (260엔)</li>
+    <li><b>직행 노선버스</b>: 국제선 1층 승강장에서 하카타 버스터미널행 니시테츠 버스 약 20분 (310엔 안팎, 유료). 환승은 없지만 배차가 뜸한 편</li>
+    <li><b>택시</b>: 국제선 1층 택시 승강장에서 숙소까지 약 15분. 짐 많고 피곤할 때</li></ul></div></details>
+  <details><summary>숙소 오가기</summary><div class="in"><ul>
+    <li><b>숙소와 하카타역</b>: 니시테츠 버스 47번, 48번 계통. 하카타역 쪽은 하카타역 앞 A 승강장, 숙소 쪽은 미노시마 1초메, 2초메, 3초메 정류장 중 가까운 곳. 약 11분, 내려서 도보 2분</li>
+    <li><b>48-2 계통</b>: 미노시마에서 하카타역 치쿠시구치행. 투어 집합 장소와 모츠나베 오오야마가 치쿠시구치 쪽이라 편해요</li>
+    <li><b>걸어서</b>: 숙소에서 하카타역까지 1.4km 정도, 약 20분</li>
+    <li><b>택시</b>: 하카타역, 나카스, 라라포트 모두 10분 안팎 거리</li>
+    <li>정확한 정류장은 체크인 안내 메시지의 주소를 구글맵 대중교통 길찾기에 넣어 확인</li></ul></div></details>
+  <details><summary>시내 이동</summary><div class="in"><ul>
+    <li><b>하카타역과 텐진</b>: 지하철 공항선 3정거장 5분</li>
+    <li><b>하카타역과 나카스</b>: 지하철 공항선 나카스카와바타역 2정거장, 또는 걸어서 15분 정도</li>
+    <li><b>텐진에서 캐널시티</b>: 나카스를 가로질러 걸어서 15분에서 20분</li>
+    <li><b>캐널시티에서 하카타역</b>: 걸어서 15분 정도</li>
+    <li><b>하카타에서 다자이후</b>: 하카타 버스터미널에서 직행 버스 약 40분, 또는 니시테츠 전철 (텐진에서 후츠카이치 환승) 약 30분</li>
+    <li><b>다자이후에서 공항</b>: 국제선 터미널 직행 버스 약 25분에서 30분, 택시도 25분 안팎</li>
+    <li><b>라라포트</b>: JR 다케시타역에서 걸어서 9분 정도, 다케시타역 서쪽 출구 정류장에 48번 계통이 서요</li></ul></div></details>
+  <details><summary>버스, 지하철, 택시 타는 법</summary><div class="in"><ul>
+    <li><b>지하철</b>: 개찰구에서 신용카드(컨택리스) 터치로 바로 탈 수 있어요. 하루 요금 상한 640엔 자동 적용</li>
+    <li><b>니시테츠 버스</b>: 뒷문이나 가운데 문으로 타면서 IC카드 터치, 현금이면 정리권 뽑기. 내릴 때 앞문에서 요금 내기. 신용카드 터치는 안 되는 경우가 많아요</li>
+    <li>버스 앞 전광판에 계통 번호와 행선지가 나오니 번호와 방면 둘 다 확인</li>
+    <li><b>택시</b>: 뒷문은 자동이라 직접 열고 닫지 않기. 카드 결제 되는 차가 대부분, 일본 택시 앱 GO로 부르기도 편해요</li></ul></div></details>
+  <details><summary>11월부터 바뀐 면세 환급</summary><div class="in"><ul>
+    <li>2026년 11월 1일 구매분부터 매장에서 세금을 빼주지 않아요. 세금 포함 가격으로 결제하고, 출국할 때 공항에서 확인받은 뒤 돌려받는 방식</li>
+    <li>면세 매장에서 결제할 때 여권 제시, 영수증은 공항까지 보관</li>
+    <li>여행 중 뜯거나 먹으면 그 영수증의 물건 전체가 환급 대상에서 빠져요</li>
+    <li>공항 도착하면 짐 부치기 전에 출발 로비 세관 키오스크에서 여권 스캔이 먼저. 짐을 부친 뒤나 출국 심사 후에는 되돌릴 수 없어요</li>
+    <li>빨간 판정이면 세관 검사대에서 물건 확인, 그래서 면세품은 꺼내기 쉬운 가방에</li>
+    <li>한국 입국 면세 한도는 1인 800달러</li></ul></div></details>
+  </section>`;
+  return h;
+}
+
+function bindInfo(){
+  const hm=document.getElementById('hm');
+  try{ hm.value=localStorage.getItem('hotel-memo')||''; }catch(e){}
+  hm.addEventListener('input',()=>{ try{ localStorage.setItem('hotel-memo',hm.value); }catch(e){} });
+  let saved={}; try{ saved=JSON.parse(localStorage.getItem('check')||'{}'); }catch(e){}
+  const boxes=[...document.querySelectorAll('.check input')];
+  const prog=()=>{ const n=boxes.filter(b=>b.checked).length; document.getElementById('prog').textContent = n===boxes.length?'다 챙겼어요':`${boxes.length}개 중 ${n}개 챙김`; };
+  boxes.forEach(b=>{ b.checked=!!saved[b.dataset.k]; b.addEventListener('change',()=>{ saved[b.dataset.k]=b.checked; try{ localStorage.setItem('check',JSON.stringify(saved)); }catch(e){} prog(); }); });
+  prog();
+}
+
+/* ---------- 탭, 라우팅 ---------- */
+const tabs=document.getElementById('tabs'), view=document.getElementById('view');
+const VIEWS=[...DAYS.map(d=>({id:d.id,d:d.d,w:d.w})),{id:'prep',d:'✓',w:'준비'}];
+tabs.innerHTML=VIEWS.map(v=>`<button class="tab" role="tab" data-id="${v.id}" aria-controls="view"><span class="d num">${v.d}</span><span class="w">${v.w}</span></button>`).join('');
+
+function show(id, scroll){
+  if(!VIEWS.some(v=>v.id===id)) id = todayId || 'day1';
+  tabs.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected', t.dataset.id===id));
+  if(id==='prep'){ view.innerHTML=renderInfo(); bindInfo(); }
+  else { const day=DAYS.find(d=>d.id===id); view.innerHTML=renderDay(day);
+    view.querySelectorAll('.pin').forEach(p=>{
+      const go=()=>{ const el=document.getElementById('s-'+p.dataset.go); if(el) el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}); };
+      p.addEventListener('click',go); p.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+    });
+    const now=view.querySelector('.item.now'); if(now && !scroll) setTimeout(()=>now.scrollIntoView({block:'center'}),50);
+  }
+  if(scroll){ const top=document.querySelector('.tabs').getBoundingClientRect().top+scrollY; if(scrollY>top) scrollTo({top}); }
+}
+tabs.addEventListener('click',e=>{ const b=e.target.closest('.tab'); if(!b) return; if(location.hash!=='#'+b.dataset.id) location.hash=b.dataset.id; else show(b.dataset.id,true); });
+addEventListener('hashchange',()=>show(location.hash.slice(1),true));
+show(location.hash.slice(1), false);
+})();
+</script>
+</body>
+</html>
