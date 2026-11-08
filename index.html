@@ -125,6 +125,7 @@ a{color:inherit}
 .wx-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .wx-foot span{font-size:12px;font-weight:700;color:var(--coral-d);background:var(--coral-l);border-radius:6px;padding:1px 8px}
 .wx-note{font-size:13px;color:var(--ink2)}
+.peek iframe{display:block;width:100%;height:260px;border:0;border-radius:14px;margin-top:10px;background:var(--coral-l)}
 .guide{margin-top:10px;border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-bottom:0}
 .guide summary{padding:11px 14px;font-size:14px;color:var(--coral-d)}
 .guide .in{padding:0 12px 14px}
@@ -245,14 +246,17 @@ const DAYS = [
     {t:'19:30', est:true, title:'무료 연결버스, 지하철로 하카타역', li:['국제선 1층 1번 승강장에서 국내선행 무료 연결버스, 10분에서 15분','국내선 터미널 지하 후쿠오카공항역에서 지하철 공항선, 하카타역까지 2정거장 5분','지하철은 신용카드 터치로 바로 탈 수 있어요 (트래블카드 등 컨택리스)'], q:'福岡空港駅'},
     {t:'19:50', est:true, title:'하카타역에서 숙소로', sub:'버스 약 11분, 내려서 도보 2분', li:['체크인 안내 메시지로 받은 주소를 구글맵 대중교통 길찾기에 넣으면 버스 번호와 정류장이 나와요','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아 IC카드나 동전 준비'], hotel:true},
     {t:'20:15', est:true, title:'숙소 셀프 체크인', sub:'3박', li:['체크인은 16시부터 22시. 프런트 없는 셀프 체크인이라 이틀 전에 오는 안내 메시지를 미리 저장','22시가 넘으면 호스트 긴급 연락이 안 될 수 있어요'], hotel:true},
-    {t:'20:45', title:'저녁, 꼬치에 생맥 한잔', sub:'숙소에서 나카스까지 2km 남짓, 택시 10분 안팎', foods:[
-      {n:'야키토리 하치베', jp:'焼とり八兵衛', m:'<b>하카타식 꼬치</b>, 생맥주', nt:'후쿠오카에서 이름난 꼬치집. 양배추가 무한으로 나오는 하카타 스타일에 돼지삼겹 꼬치가 명물이에요. 나카스 근처 지점이 있어 첫날 숙소 가는 길에 좋아요. 지점마다 위치와 마감이 달라 버튼으로 확인.', q:'焼とり八兵衛'},
-      {alt:true, n:'나카스 야타이 거리', jp:'中洲屋台', m:'꼬치, 오뎅, 생맥주', nt:'강변 포장마차에서 한 잔. 자리가 좁아 2명이 오히려 들어가기 쉽고, 현금이 편해요. 비 오는 날은 쉬는 곳이 많아요.', q:'中洲屋台'},
-      {alt:true, n:'가와타로 나카스 본점', jp:'河太郎 中洲本店', m:'<b>오징어 활어회</b>, 해산물 정식', nt:'가게 안 큰 수조에서 바로 건져 올리는 요부코 오징어가 명물. 마감이 이른 편이라 도착 시간에 맞는지 꼭 확인.', q:'河太郎 中洲本店'},
-      {alt:true, n:'효탄스시', jp:'ひょうたん寿司', m:'<b>스시</b>, 제철 생선', nt:'텐진에 있는 오래된 스시집. 현지인도 줄 서는 곳이라 첫날보다 셋째 날 텐진에서 들러도 좋아요.', q:'ひょうたん寿司 天神'},
-      {alt:true, n:'코테키치 KITTE 하카타점', jp:'こて吉 KITTE博多店', m:'<b>오코노미야키</b>, 철판구이, 야키라멘', nt:'하카타역 바로 옆 KITTE 안 철판 이자카야. 분위기가 깔끔해서 생맥이랑 편하게.', q:'こて吉 KITTE博多店'}
+    {t:'20:45', title:'저녁, 꼬치에 생맥 한잔', sub:'숙소에서 택시 10분 안팎', li:['마스터즈드림 생맥은 산토리 생맥을 쓰는 일부 가게에만 있어요. 메뉴판에서 ‘マスターズドリーム’ 글자를 찾거나 버튼으로 근처 가게 검색'], links:[{t:'마스터즈드림 생맥 가게 찾기', q:'マスターズドリーム 生ビール 中洲'}], foods:[
+      {n:'야키토리 하치베', jp:'焼とり八兵衛', m:'<b>하카타식 꼬치</b>, 생맥주', nt:'후쿠오카에서 이름난 꼬치집. 양배추가 계속 나오는 하카타 스타일에 돼지삼겹 꼬치가 명물이에요. 지점마다 위치와 마감이 달라 나카스와 가까운 지점으로.', q:'焼とり八兵衛'},
+      {alt:true, n:'가와타로 나카스 본점', jp:'河太郎 中洲本店', m:'<b>오징어 활어회</b>, 해산물', nt:'큰 수조에서 바로 건져 올리는 요부코 오징어가 명물. 마감이 이른 편이라 도착 시간 확인.', q:'河太郎 中洲本店'},
+      {alt:true, n:'코테키치 KITTE 하카타점', jp:'こて吉 KITTE博多店', m:'<b>오코노미야키</b>, 철판구이', nt:'하카타역 바로 옆 KITTE 안 철판 이자카야. 깔끔한 분위기에 생맥이랑 편하게.', q:'こて吉 KITTE博多店'}
      ], ll:LL.yatai, m:'나카스'},
-    {t:'21:45', title:'나카스 강변 산책 후 숙소로', li:['강물에 네온이 비치는 시간이라 사진 찍기 좋아요','돌아갈 땐 택시가 제일 간단해요'], ll:LL.nakasu, m:'나카스 강변', q:'中洲 那珂川 遊歩道'}
+    {t:'21:45', title:'강변 산책하고 2차, 오뎅과 라멘', li:['강물에 네온이 비치는 시간이라 사진 찍기 좋아요','2차 끝나고 숙소는 택시가 제일 간단해요'], foods:[
+      {n:'나카스 야타이 거리', jp:'中洲屋台', m:'<b>오뎅</b>, 야키라멘, 돈코츠 라멘', nt:'강변 포장마차에서 오뎅 몇 개에 한 잔, 마무리로 라멘. 자리가 좁아 2명이 오히려 들어가기 쉽고, 현금이 편해요. 비 오는 날은 쉬는 곳이 많아요.', q:'中洲屋台'},
+      {alt:true, n:'명대 오뎅 야스베에', jp:'名代おでん安兵衛', m:'<b>오뎅</b>, 데운 사케', nt:'니시나카스의 오래된 오뎅집. 18시부터 23시까지, 일요일 휴무라 첫날 수요일엔 열어요. 늦게 가면 재료가 떨어질 수 있으니 22시 전에.', q:'名代おでん安兵衛'},
+      {alt:true, n:'나카스 오뎅', jp:'中洲おでん', m:'<b>오뎅</b>, 병맥주', nt:'카운터 10석 정도의 작은 노포. 오뎅 하나하나가 부담 없는 가격이라 2차로 딱. 카드는 안 돼요.', q:'中洲おでん 中洲'},
+      {alt:true, n:'이치란 본사총본점', jp:'一蘭 本社総本店', m:'<b>돈코츠 라멘</b>', nt:'나카스 강변의 이치란 본점, 늦게까지 열어요. 마무리 라멘을 칸막이 자리에서.', q:'一蘭 本社総本店'}
+     ], ll:LL.nakasu, m:'나카스 강변'}
    ]},
  { id:'day2', d:'12', w:'목', title:'버스투어, 히타와 유후인', lead:'와쿠와쿠 4호선. 한국어 가이드와 함께 두 마을을 여유 있게 돌고, 라라포트에서 내려 건담 보고 저녁.', map:'tour',
    stops:[
@@ -286,11 +290,11 @@ const DAYS = [
     {t:'09:30', title:'숙소 출발', li:['하카타역까지 버스 약 11분','하카타역에서 지하철 공항선 텐진역까지 3정거장 5분','택시로 텐진 직행도 가능'], hotel:true},
     {t:'10:00', title:'텐진 쇼핑', sub:'다이마루, 파르코, 텐진 지하상가', li:['지하상가는 비 와도 걱정 없고 유럽풍 바닥과 천장이 볼거리','면세 물건은 세금 포함 가격으로 결제하고 영수증 꼭 보관, 귀국날 공항에서 환급 (준비 탭 참고)'], ll:LL.tenjin, m:'텐진', q:'天神地下街'},
     {t:'12:30', title:'텐진에서 점심', foods:[
-      {n:'텐푸라 히라오 다이묘점', jp:'天ぷら ひらお 大名店', m:'<b>텐푸라 정식</b>', nt:'카운터 앞에서 한 점씩 바로 튀겨줘요. 무료 반찬인 오징어 젓갈이 명물. 저렴하고 회전이 빨라 줄이 있어도 금방 빠지는 편.', q:'天ぷら ひらお 大名店'},
-      {alt:true, n:'원조 하카타 멘타이쥬', jp:'元祖博多めんたい重', m:'<b>멘타이쥬</b> 명란 덮밥, 멘타이 츠케멘', nt:'나카스 강변. 명란을 제대로 먹고 싶다면 여기, 대신 웨이팅 각오.', q:'元祖博多めんたい重'},
-      {alt:true, n:'요시즈카 우나기야', jp:'吉塚うなぎ屋', m:'<b>우나쥬</b> 장어덮밥', nt:'나카스에 있는 오래된 장어집. 캐널시티로 걸어가는 길목이라 동선도 맞아요.', q:'吉塚うなぎ屋'},
-      {alt:true, n:'효탄스시', jp:'ひょうたん寿司', m:'<b>스시</b> 런치', nt:'텐진 한가운데 있는 인기 스시집. 점심 세트가 부담 없는 편이라 텐진에서 스시를 먹을 기회.', q:'ひょうたん寿司 天神'},
-      {alt:true, n:'하카타 라멘 ShinShin 텐진 본점', jp:'博多らーめん ShinShin 天神本店', m:'<b>하카타 라멘</b>', nt:'여행 중 라멘을 딱 한 번 먹는다면 여기. 맑고 깔끔한 돈코츠라 부담 없어요.', q:'博多らーめん ShinShin 天神本店'}
+      {n:'효탄스시', jp:'ひょうたん寿司', m:'<b>스시</b> 런치 세트, 제철 생선', nt:'텐진 한가운데 있는 현지인 인기 스시집. 점심 세트가 부담 없는 편이라 텐진에서 스시를 먹기 좋은 기회. 줄이 생기니 11시 반쯤 일찍 가면 편해요.', q:'ひょうたん寿司 天神'},
+      {alt:true, n:'텐푸라 히라오 다이묘점', jp:'天ぷら ひらお 大名店', m:'<b>텐푸라 정식</b>', nt:'카운터 앞에서 한 점씩 바로 튀겨줘요. 무료 반찬 오징어 젓갈이 명물. 회전이 빨라 줄이 금방 빠지는 편.', q:'天ぷら ひらお 大名店'},
+      {alt:true, n:'원조 하카타 멘타이쥬', jp:'元祖博多めんたい重', m:'<b>멘타이쥬</b> 명란 덮밥', nt:'나카스 강변. 명란을 제대로 먹고 싶다면 여기, 대신 웨이팅 각오.', q:'元祖博多めんたい重'},
+      {alt:true, n:'하카타 라멘 ShinShin 텐진 본점', jp:'博多らーめん ShinShin 天神本店', m:'<b>하카타 라멘</b>', nt:'맑고 깔끔한 돈코츠라 부담 없어요. 점심 피크엔 줄.', q:'博多らーめん ShinShin 天神本店'},
+      {alt:true, n:'원조 하카타 다루마', jp:'元祖博多だるま', m:'<b>진한 돈코츠 라멘</b>', nt:'1963년부터 이어온 노포. 진하고 묵직한 국물을 원하면 여기. 텐진 남쪽이라 걸어서 15분 정도.', q:'元祖博多だるま 本店'}
      ], ll:LL.shinshin, m:'ShinShin', side:'t'},
     {t:'14:00', title:'나카스 지나 캐널시티까지 걷기', sub:'15분에서 20분', li:['텐진에서 동쪽으로, 나카 강 다리를 건너 나카스를 지나면 캐널시티','다리 위에서 강변 사진 한 장'], ll:LL.mentaiju, m:'나카스'},
     {t:'14:30', title:'캐널시티 하카타', li:['쇼핑몰 한가운데 운하에서 분수쇼가 정기적으로 열려요. 시간표는 현장 게시판','쇼핑백이 많아지면 택시로 숙소에 한 번 들렀다 나와도 가까워요'], ll:LL.canal, m:'캐널시티', side:'b', q:'キャナルシティ博多'},
@@ -302,7 +306,12 @@ const DAYS = [
       {alt:true, n:'모츠나베 라쿠텐치 하카타역앞 본점', jp:'もつ鍋 楽天地 博多駅前本店', m:'부추를 산더미처럼 올린 모츠나베', nt:'양이 넉넉하고 부담 없는 가격대. 시끌벅적한 분위기.', q:'もつ鍋 楽天地 博多駅前本店'},
       {alt:true, n:'하카타 하나미도리', jp:'博多華味鳥', m:'<b>미즈타키</b> 닭 백숙 전골', nt:'곱창이 부담되면 하카타 또 다른 명물인 닭 전골로. 하카타역 근처에도 지점이 있어요.', q:'博多華味鳥 博多駅'}
      ], ll:LL.hakata, m:'하카타역'},
-    {t:'20:30', title:'숙소 복귀', li:['하카타역에서 버스 약 11분 또는 택시','내일 10시 체크아웃이니 짐은 오늘 밤에 싸두기','면세로 산 물건은 뜯지 말고 기내용 가방 하나에 모아두기'], hotel:true}
+    {t:'20:30', title:'2차, 오뎅이나 마스터즈드림 한 잔 (선택)', li:['배가 남았으면 나카스 쪽으로 한 정거장 이동해 오뎅으로 마무리','마스터즈드림 생맥은 산토리 생맥을 쓰는 일부 가게에만 있어요. 메뉴판에서 ‘マスターズドリーム’ 글자를 찾거나 버튼으로 근처 가게 검색'], links:[{t:'마스터즈드림 생맥 가게 찾기', q:'マスターズドリーム 生ビール 博多駅'}], foods:[
+      {n:'명대 오뎅 야스베에', jp:'名代おでん安兵衛', m:'<b>오뎅</b>, 데운 사케', nt:'첫날 못 갔다면 여기서. 금요일이라 붐빌 수 있으니 22시 전에.', q:'名代おでん安兵衛'},
+      {alt:true, n:'나카스 오뎅', jp:'中洲おでん', m:'<b>오뎅</b>, 병맥주', nt:'작은 카운터 노포, 현금만.', q:'中洲おでん 中洲'},
+      {alt:true, n:'나카스 야타이 거리', jp:'中洲屋台', m:'오뎅, 야키라멘', nt:'금요일 밤 야타이 분위기를 한 번 더.', q:'中洲屋台'}
+     ]},
+    {t:'22:00', title:'숙소 복귀', li:['택시가 제일 간단해요','내일 10시 체크아웃이니 짐은 오늘 밤에 싸두기','면세로 산 물건은 뜯지 말고 기내용 가방 하나에 모아두기'], hotel:true}
    ]},
  { id:'day4', d:'14', w:'토', title:'다자이후 산책, 그리고 귀국', lead:'체크아웃하고 짐 들고 다자이후로. 참배길 걸으며 우메가에모치 먹고 텐만구 둘러본 뒤, 하카타로 돌아오지 않고 공항으로 바로 가요.', map:'city',
    stops:[
@@ -382,7 +391,7 @@ const CHECK = [
   ['plug','돼지코 (110V 변환)','일본은 11자 콘센트'],
   ['battery','보조배터리','투어버스는 USB 충전 가능'],
   ['motsu','모츠나베 예약','금요일 저녁 18:30'],
-  ['bag','면세품 모을 기내용 가방','공항 세관에서 꺼내 보여줄 수 있게'],
+  ['bag','접이식 보조가방','귀국날 쇼핑한 걸 기내로 들고 탈 짐 한 개'],
   ['umbrella','접이식 우산','11월 중순 후쿠오카는 선선한 가을']
 ];
 
@@ -541,7 +550,7 @@ function foodCard(f){
   return `<div class="food${f.alt?' alt':''}"><div class="fn">${f.n}</div>`+
     (f.jp?`<div class="jp">${f.jp}</div>`:'')+
     `<p class="m">${f.m}</p>`+(f.nt?`<p class="nt">${f.nt}</p>`:'')+
-    (f.q?`<div class="btns"><a class="btn" href="${gmap(f.q)}" target="_blank" rel="noopener">${CLOCK}구글에서 영업시간 확인</a></div>`:'')+
+    (f.q?`<div class="peek" data-q="${esc(f.q)}"></div><div class="btns"><button class="btn peek-btn" type="button" aria-expanded="false">${PIN}지도와 평점 보기</button><a class="btn" href="${gmap(f.q)}" target="_blank" rel="noopener">${CLOCK}사진, 리뷰, 영업시간</a></div>`:'')+
     `</div>`;
 }
 function foodsBlock(list){
@@ -572,6 +581,7 @@ function renderDay(day){
       (s.sub?`<p class="sub">${s.sub}</p>`:'');
     if(s.flight){ const f=s.flight; h+=`<div class="flight"><div class="c num">${f[0]}<small>${f[1]}</small></div><div class="mid">${f[4]}<hr></div><div class="c num" style="text-align:right">${f[2]}<small>${f[3]}</small></div></div>`; }
     if(s.li) h+='<ul>'+s.li.map(x=>`<li>${x}</li>`).join('')+'</ul>';
+    if(s.links) h+=`<div class="btns">${s.links.map(k=>`<a class="btn" href="${gmap(k.q)}" target="_blank" rel="noopener">${PIN}${k.t}</a>`).join('')}</div>`;
     if(s.foods) h+=foodsBlock(s.foods);
     if(s.guide){ const g=GUIDES[s.guide]; h+=`<details class="guide"><summary>${g.s}</summary><div class="in">${g.body()}</div></details>`; }
     const dest = s.ll || null;
@@ -631,6 +641,13 @@ function renderInfo(){
     <li>불포함: 식사, 음료, 개인 경비</li>
     <li>캐리어가 있으면 예약처에 미리 알리기</li>
     <li>투어 복귀는 오리엔탈 호텔 1층 로손 편의점 앞</li></ul></div></details>
+  <details><summary>짐: 캐리어 1개, 백팩 1개</summary><div class="in"><ul>
+    <li><b>위탁 수하물</b>: 진에어, 에어서울 모두 1인 15kg. 캐리어 하나를 둘이 같이 쓰면 함께 체크인할 때 둘의 허용량을 합쳐 주기도 하지만 항공사와 현장마다 달라요. 가는 길은 15kg 안으로 싸두면 걱정 없어요</li>
+    <li><b>오는 길</b>: 쇼핑으로 15kg을 넘길 것 같으면 둘이 같이 카운터에 가서 합산을 부탁하고, 안 되면 항공사 앱에서 추가 수하물을 미리 사는 게 공항 현장 결제보다 싸요</li>
+    <li><b>기내 수하물</b>: 1인 1개, 10kg, 세 변의 합 115cm 이하. 백팩 하나면 넉넉하고, 짐 없는 한 명 몫으로 접이식 보조가방을 챙기면 귀국날 쇼핑한 걸 들고 탈 수 있어요</li>
+    <li><b>백팩에 넣을 것</b>: 보조배터리(위탁 불가), 여권, 100ml 이하 액체만 지퍼백에</li>
+    <li><b>캐리어 크기</b>: 20kg용 캐리어는 다자이후역 코인로커 대형 칸에 들어가는 크기예요. 대형 칸이 차 있을 때를 대비해 짐 보관 앱도 깔아두기</li>
+    <li><b>면세품</b>: 공항 세관 키오스크에서 보여줄 수 있게 캐리어 맨 위에 모아두고, 확인 받은 뒤에 부치기</li></ul></div></details>
   <details><summary>항공권 주의</summary><div class="in"><ul>
     <li>편도 두 장을 묶은 항공권이라 구간별 항공사 규정이 따로 적용</li>
     <li>진에어, 에어서울 모두 인천 제2터미널 (에어서울은 2025년 9월 T2로 이전)</li>
@@ -741,6 +758,13 @@ function show(id, scroll){
   }
   if(scroll){ scrollTo({top:0, behavior:'auto'}); }
 }
+view.addEventListener('click',e=>{
+  const b=e.target.closest('.peek-btn'); if(!b) return;
+  const card=b.closest('.food'), pk=card.querySelector('.peek');
+  if(pk.firstChild){ pk.innerHTML=''; b.setAttribute('aria-expanded','false'); b.lastChild.textContent='지도와 평점 보기'; return; }
+  pk.innerHTML=`<iframe src="https://maps.google.com/maps?q=${encodeURIComponent(pk.dataset.q)}&hl=ko&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${esc(pk.dataset.q)} 지도"></iframe><p class="map-note">왼쪽 위 카드에 평점과 리뷰 수가 나와요. 사진은 ‘사진, 리뷰, 영업시간’ 버튼으로.</p>`;
+  b.setAttribute('aria-expanded','true'); b.lastChild.textContent='지도 접기';
+});
 tabs.addEventListener('click',e=>{ const b=e.target.closest('.tab'); if(!b) return; if(location.hash!=='#'+b.dataset.id) location.hash=b.dataset.id; else show(b.dataset.id,true); });
 addEventListener('hashchange',()=>show(location.hash.slice(1),true));
 show(location.hash.slice(1), false);
