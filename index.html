@@ -227,6 +227,9 @@ const TRAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const distKm=(a,b)=>{const R=6371,toR=x=>x*Math.PI/180,dLa=toR(b[0]-a[0]),dLo=toR(b[1]-a[1]);const h=Math.sin(dLa/2)**2+Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));};
 const gmap = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
 
+/* 구글 지도 임베드 API 키: 따옴표 안에 붙여 넣으면 지도 미리보기에 가게 이름, 주소, 평점 카드가 나와요 */
+const MAPS_KEY = '';
+
 /* ---------- 데이터 ---------- */
 const LL = {
   hakata:[33.5897,130.4207], oriental:[33.5893,130.4226], fuk:[33.5853,130.4593], hbt:[33.5916,130.4193],
@@ -246,11 +249,11 @@ const DAYS = [
     {t:'19:30', est:true, title:'무료 연결버스, 지하철로 하카타역', li:['국제선 1층 1번 승강장에서 국내선행 무료 연결버스, 10분에서 15분','국내선 터미널 지하 후쿠오카공항역에서 지하철 공항선, 하카타역까지 2정거장 5분','지하철은 신용카드 터치로 바로 탈 수 있어요 (트래블카드 등 컨택리스)'], q:'福岡空港駅'},
     {t:'19:50', est:true, title:'하카타역에서 숙소로', sub:'버스 약 11분, 내려서 도보 2분', li:['체크인 안내 메시지로 받은 주소를 구글맵 대중교통 길찾기에 넣으면 버스 번호와 정류장이 나와요','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아 IC카드나 동전 준비'], hotel:true},
     {t:'20:15', est:true, title:'숙소 셀프 체크인', sub:'3박', li:['체크인은 16시부터 22시. 프런트 없는 셀프 체크인이라 이틀 전에 오는 안내 메시지를 미리 저장','22시가 넘으면 호스트 긴급 연락이 안 될 수 있어요'], hotel:true},
-    {t:'20:45', title:'저녁, 꼬치에 생맥 한잔', sub:'숙소에서 택시 10분 안팎', li:['마스터즈드림 생맥은 산토리 생맥을 쓰는 일부 가게에만 있어요. 메뉴판에서 ‘マスターズドリーム’ 글자를 찾거나 버튼으로 근처 가게 검색'], links:[{t:'마스터즈드림 생맥 가게 찾기', q:'マスターズドリーム 生ビール 中洲'}], foods:[
-      {n:'야키토리 하치베', jp:'焼とり八兵衛', m:'<b>하카타식 꼬치</b>, 생맥주', nt:'후쿠오카에서 이름난 꼬치집. 양배추가 계속 나오는 하카타 스타일에 돼지삼겹 꼬치가 명물이에요. 지점마다 위치와 마감이 달라 나카스와 가까운 지점으로.', q:'焼とり八兵衛'},
+    {t:'20:45', title:'저녁, 꼬치에 생맥 한잔', sub:'숙소에서 택시 10분 안팎', li:['마스터즈드림 생맥은 산토리 생맥을 쓰는 일부 가게에만 있어요. 메뉴판에서 ‘マスターズドリーム’ 글자를 찾거나 버튼으로 근처 가게 검색'], links:[{t:'마스터즈드림 생맥 가게 찾기', q:'マスターズドリーム 生ビール 博多駅'}], foods:[
+      {n:'야키토리 하치베 하카타점', jp:'焼とりの八兵衛 博多店', m:'<b>하카타식 꼬치</b>, 생맥주', nt:'1983년부터 이어온 후쿠오카 대표 꼬치집. 돼지삼겹 꼬치와 완두콩 꼬치튀김이 명물이에요. 하카타역에서 걸어서 7분 정도, 18시부터 23시까지 (주문 마감 22:30), 월요일 휴무라 수요일은 열어요.', q:'焼とりの八兵衛 博多店'},
       {alt:true, n:'가와타로 나카스 본점', jp:'河太郎 中洲本店', m:'<b>오징어 활어회</b>, 해산물', nt:'큰 수조에서 바로 건져 올리는 요부코 오징어가 명물. 마감이 이른 편이라 도착 시간 확인.', q:'河太郎 中洲本店'},
       {alt:true, n:'코테키치 KITTE 하카타점', jp:'こて吉 KITTE博多店', m:'<b>오코노미야키</b>, 철판구이', nt:'하카타역 바로 옆 KITTE 안 철판 이자카야. 깔끔한 분위기에 생맥이랑 편하게.', q:'こて吉 KITTE博多店'}
-     ], ll:LL.yatai, m:'나카스'},
+     ], ll:LL.hakata, m:'하카타역'},
     {t:'21:45', title:'강변 산책하고 2차, 오뎅과 라멘', li:['강물에 네온이 비치는 시간이라 사진 찍기 좋아요','2차 끝나고 숙소는 택시가 제일 간단해요'], foods:[
       {n:'나카스 야타이 거리', jp:'中洲屋台', m:'<b>오뎅</b>, 야키라멘, 돈코츠 라멘', nt:'강변 포장마차에서 오뎅 몇 개에 한 잔, 마무리로 라멘. 자리가 좁아 2명이 오히려 들어가기 쉽고, 현금이 편해요. 비 오는 날은 쉬는 곳이 많아요.', q:'中洲屋台'},
       {alt:true, n:'명대 오뎅 야스베에', jp:'名代おでん安兵衛', m:'<b>오뎅</b>, 데운 사케', nt:'니시나카스의 오래된 오뎅집. 18시부터 23시까지, 일요일 휴무라 첫날 수요일엔 열어요. 늦게 가면 재료가 떨어질 수 있으니 22시 전에.', q:'名代おでん安兵衛'},
@@ -550,7 +553,7 @@ function foodCard(f){
   return `<div class="food${f.alt?' alt':''}"><div class="fn">${f.n}</div>`+
     (f.jp?`<div class="jp">${f.jp}</div>`:'')+
     `<p class="m">${f.m}</p>`+(f.nt?`<p class="nt">${f.nt}</p>`:'')+
-    (f.q?`<div class="peek" data-q="${esc(f.q)}"></div><div class="btns"><button class="btn peek-btn" type="button" aria-expanded="false">${PIN}지도와 평점 보기</button><a class="btn" href="${gmap(f.q)}" target="_blank" rel="noopener">${CLOCK}사진, 리뷰, 영업시간</a></div>`:'')+
+    (f.q?`<div class="peek" data-q="${esc(f.q)}"></div><div class="btns"><button class="btn peek-btn" type="button" aria-expanded="false">${PIN}지도 보기</button><a class="btn" href="${gmap(f.q)}" target="_blank" rel="noopener">${CLOCK}사진, 리뷰, 영업시간</a></div>`:'')+
     `</div>`;
 }
 function foodsBlock(list){
@@ -761,8 +764,8 @@ function show(id, scroll){
 view.addEventListener('click',e=>{
   const b=e.target.closest('.peek-btn'); if(!b) return;
   const card=b.closest('.food'), pk=card.querySelector('.peek');
-  if(pk.firstChild){ pk.innerHTML=''; b.setAttribute('aria-expanded','false'); b.lastChild.textContent='지도와 평점 보기'; return; }
-  pk.innerHTML=`<iframe src="https://maps.google.com/maps?q=${encodeURIComponent(pk.dataset.q)}&hl=ko&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${esc(pk.dataset.q)} 지도"></iframe><p class="map-note">왼쪽 위 카드에 평점과 리뷰 수가 나와요. 사진은 ‘사진, 리뷰, 영업시간’ 버튼으로.</p>`;
+  if(pk.firstChild){ pk.innerHTML=''; b.setAttribute('aria-expanded','false'); b.lastChild.textContent='지도 보기'; return; }
+  pk.innerHTML=`<iframe src="${MAPS_KEY ? `https://www.google.com/maps/embed/v1/place?key=${MAPS_KEY}&q=${encodeURIComponent(pk.dataset.q)}&language=ko` : `https://maps.google.com/maps?q=${encodeURIComponent(pk.dataset.q)}&hl=ko&z=16&output=embed`}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${esc(pk.dataset.q)} 지도"></iframe>${MAPS_KEY?'':'<p class="map-note">평점, 사진, 리뷰는 옆의 ‘사진, 리뷰, 영업시간’ 버튼으로 볼 수 있어요.</p>'}`;
   b.setAttribute('aria-expanded','true'); b.lastChild.textContent='지도 접기';
 });
 tabs.addEventListener('click',e=>{ const b=e.target.closest('.tab'); if(!b) return; if(location.hash!=='#'+b.dataset.id) location.hash=b.dataset.id; else show(b.dataset.id,true); });
