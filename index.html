@@ -126,6 +126,18 @@ a{color:inherit}
 .wx-foot span{font-size:12px;font-weight:700;color:var(--coral-d);background:var(--coral-l);border-radius:6px;padding:1px 8px}
 .wx-note{font-size:13px;color:var(--ink2)}
 .peek iframe{display:block;width:100%;height:260px;border:0;border-radius:14px;margin-top:10px;background:var(--coral-l)}
+.lockbox{border-radius:20px;background:var(--card);box-shadow:0 0 0 1.5px var(--coral) inset;padding:16px 18px;margin-bottom:12px}
+.lk-t{display:flex;align-items:center;gap:8px;font-weight:900;font-size:17px;letter-spacing:-.02em}
+.lk-t svg{width:18px;height:18px;color:var(--coral-d)}
+.lk-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}
+.lk-row input{font:inherit;font-size:16px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);min-width:0}
+.lk-row input:focus{outline:none;border-color:var(--coral)}
+.addbtn{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:12px;background:var(--coral);color:#fff;cursor:pointer;padding:0 18px}
+.addbtn:focus-visible{outline:3px solid var(--coral-d);outline-offset:2px}
+.taxi{margin-top:10px;border-radius:16px;background:var(--coral);color:#fff;padding:14px 16px}
+.taxi small{display:block;font-size:12px;opacity:.9}
+.taxi b{display:block;font-size:20px;line-height:1.35;margin:4px 0}
+.taxi span{font-size:14px}
 .guide{margin-top:10px;border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-bottom:0}
 .guide summary{padding:11px 14px;font-size:14px;color:var(--coral-d)}
 .guide .in{padding:0 12px 14px}
@@ -225,6 +237,7 @@ const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const WALK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M7 12l3-4 4 1 2 3 3 1"/></svg>';
 const TRAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></svg>';
 const distKm=(a,b)=>{const R=6371,toR=x=>x*Math.PI/180,dLa=toR(b[0]-a[0]),dLo=toR(b[1]-a[1]);const h=Math.sin(dLa/2)**2+Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));};
+const LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 const gmap = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
 
 /* 구글 지도 임베드 API 키: 따옴표 안에 붙여 넣으면 지도 미리보기에 가게 이름, 주소, 평점 카드가 나와요 */
@@ -248,7 +261,7 @@ const DAYS = [
     {t:'18:50', title:'후쿠오카공항 국제선 도착', li:['입국 심사 전에 Visit Japan Web QR 화면 준비','짐 찾고 입국장으로 나오면 1층'], ll:LL.fuk, m:'후쿠오카공항', q:'福岡空港 国際線ターミナル'},
     {t:'19:30', est:true, title:'무료 연결버스, 지하철로 하카타역', li:['국제선 1층 1번 승강장에서 국내선행 무료 연결버스, 10분에서 15분','국내선 터미널 지하 후쿠오카공항역에서 지하철 공항선, 하카타역까지 2정거장 5분','지하철은 신용카드 터치로 바로 탈 수 있어요 (트래블카드 등 컨택리스)'], q:'福岡空港駅'},
     {t:'19:50', est:true, title:'하카타역에서 숙소로', sub:'버스 약 11분, 내려서 도보 2분', li:['체크인 안내 메시지로 받은 주소를 구글맵 대중교통 길찾기에 넣으면 버스 번호와 정류장이 나와요','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아 IC카드나 동전 준비'], hotel:true},
-    {t:'20:15', est:true, title:'숙소 셀프 체크인', sub:'3박', li:['체크인은 16시부터 22시. 프런트 없는 셀프 체크인이라 이틀 전에 오는 안내 메시지를 미리 저장','22시가 넘으면 호스트 긴급 연락이 안 될 수 있어요'], hotel:true},
+    {t:'20:15', est:true, title:'숙소 셀프 체크인', sub:'3박', li:['체크인은 16시부터 22시. 프런트 없는 셀프 체크인이라 체크인 전날 오는 객실 번호와 체크인 가이드를 미리 저장','22시가 넘으면 문의 대응이 어려워요','숙소 주소와 가는 길은 준비 탭 숙소 칸에서 잠금을 풀면 보여요'], hotel:true},
     {t:'20:45', title:'저녁, 꼬치에 생맥 한잔', sub:'숙소에서 택시 10분 안팎', li:['마스터즈드림 생맥은 산토리 생맥을 쓰는 일부 가게에만 있어요. 메뉴판에서 ‘マスターズドリーム’ 글자를 찾거나 버튼으로 근처 가게 검색'], links:[{t:'마스터즈드림 생맥 가게 찾기', q:'マスターズドリーム 生ビール 博多駅'}], foods:[
       {n:'야키토리 하치베 하카타점', jp:'焼とりの八兵衛 博多店', m:'<b>하카타식 꼬치</b>, 생맥주', nt:'1983년부터 이어온 후쿠오카 대표 꼬치집. 돼지삼겹 꼬치와 완두콩 꼬치튀김이 명물이에요. 하카타역에서 걸어서 7분 정도, 18시부터 23시까지 (주문 마감 22:30), 월요일 휴무라 수요일은 열어요.', q:'焼とりの八兵衛 博多店'},
       {alt:true, n:'가와타로 나카스 본점', jp:'河太郎 中洲本店', m:'<b>오징어 활어회</b>, 해산물', nt:'큰 수조에서 바로 건져 올리는 요부코 오징어가 명물. 마감이 이른 편이라 도착 시간 확인.', q:'河太郎 中洲本店'},
@@ -318,7 +331,7 @@ const DAYS = [
    ]},
  { id:'day4', d:'14', w:'토', title:'다자이후 산책, 그리고 귀국', lead:'체크아웃하고 짐 들고 다자이후로. 참배길 걸으며 우메가에모치 먹고 텐만구 둘러본 뒤, 하카타로 돌아오지 않고 공항으로 바로 가요.', map:'city',
    stops:[
-    {t:'10:00', title:'체크아웃', li:['체크아웃은 10시. 체크아웃 후 짐 보관은 안 되는 숙소','캐리어가 있으니 하카타 버스터미널까지는 택시가 편해요 (10분 안팎)'], hotel:true},
+    {t:'10:00', title:'체크아웃', li:['체크아웃은 10시. 체크아웃 후 짐 보관은 안 되는 숙소','레이트 체크아웃은 12시까지 시간당 1,000엔, 원하면 미리 숙소에 메시지 (결제는 에어비앤비로)','캐리어가 있으니 하카타 버스터미널까지는 택시가 편해요 (10분 안팎)'], hotel:true},
     {t:'10:30', title:'다자이후행 버스', sub:'하카타 버스터미널에서 약 40분', li:['하카타 버스터미널에서 니시테츠 다자이후행 직행 버스 ‘旅人(타비토)’. 타는 승강장은 터미널 안내판 확인','캐리어는 들고 타는 일반 버스라 한쪽에 잘 세워두기','버스가 불편하면 니시테츠 전철: 텐진에서 후츠카이치 환승, 다자이후역까지 약 30분'], ll:LL.hbt, m:'버스터미널', q:'博多バスターミナル'},
     {t:'11:15', est:true, title:'다자이후역에 짐 맡기기', li:['역 안팎 코인로커에 캐리어 넣기. 대형 칸은 토요일 오전에 금방 차요','꽉 찼으면 역 앞 관광안내소나 주변 가게의 유료 짐 보관','ecbo cloak 앱으로 근처 보관 장소를 미리 예약해두면 안심'], ll:LL.dzst, m:'다자이후역', side:'b', q:'太宰府駅 コインロッカー'},
     {t:'11:30', title:'참배길과 다자이후 텐만구', sub:'역에서 걸어서 5분부터', li:['역에서 텐만구까지 이어지는 참배길 상점가. 갓 구운 우메가에모치를 하나씩 들고 걷기','구마 겐고가 설계한 나무 격자 스타벅스가 참배길 중간에 있어요','학문의 신을 모신 신사. 다리 셋을 건너 본전으로, 소 동상 머리를 쓰다듬으면 똑똑해진다는 이야기','11월 중순이면 경내 단풍이 물들기 시작할 무렵'], ll:LL.tenmangu, m:'다자이후 텐만구', q:'太宰府天満宮'},
@@ -364,7 +377,7 @@ const APPS = [
   {g:'예약과 입국', items:[
     {n:'Visit Japan Web', d:'앱이 아니라 웹사이트. 입국 심사와 세관 정보를 미리 등록하면 QR 하나로 통과해요.', w:'출국 며칠 전 등록', link:'https://www.vjw.digital.go.jp/', lt:'Visit Japan Web 열기'},
     {n:'진에어, 에어서울 앱', d:'모바일 체크인이 열리면 미리 해두고 공항에서 셀프 백드롭으로 짐만 부치면 빨라요.', w:'출발 전날'},
-    {n:'숙소 예약 앱', d:'셀프 체크인 안내와 도어락 정보가 메시지로 와요. 오프라인에서도 보이게 캡처.', w:'11월 9일쯤 안내 도착'},
+    {n:'숙소 예약 앱', d:'셀프 체크인 안내와 도어락 정보가 메시지로 와요. 오프라인에서도 보이게 캡처.', w:'체크인 전날 안내 도착'},
     {n:'네이버 예약', d:'버스투어 예약 내역과 집합 안내 확인.', w:'12일 아침'}
   ]},
   {g:'짐과 안전', items:[
@@ -386,7 +399,7 @@ const CHECK = [
   ['ic','IC카드 또는 동전','니시테츠 버스는 신용카드 터치가 안 되는 경우가 많아요'],
   ['tour','버스투어 네이버 예약 확인','집합 시간과 예약자 이름 캡처'],
   ['guestlist','숙박자 명부 제출','숙소 예약 후 온라인으로, 여권 사본 필요'],
-  ['checkin','체크인 안내 메시지 저장','11월 9일쯤 도착, 오프라인에서도 보이게 캡처'],
+  ['checkin','체크인 안내 메시지 저장','체크인 전날(11/10) 도착, 오프라인에서도 보이게 캡처'],
   ['sim','eSIM 또는 로밍','지도랑 이 페이지 보려면 필수'],
   ['suica','교통카드 준비','아이폰은 지갑 앱 Suica, 안드로이드는 현지에서 실물 카드'],
   ['offline','구글 오프라인 지도 저장','숙소 주변, 하카타역, 텐진'],
@@ -571,7 +584,7 @@ function curIdx(day){
 
 function renderDay(day){
   const cur=curIdx(day), NO=mapNos(day);
-  let prev = null, prevName='';
+  let prev = null, prevName='', prevQ='';
   let h=`<div class="dayhead"><h2>${day.title}</h2><p>${day.lead}</p></div><div class="wx" id="wx" data-id="${day.id}"><span class="wx-ic">${WI.cloud}</span><span class="wx-b"><span class="loc">${WXLOC[day.id].n} 날씨</span><span class="wx-note">불러오는 중</span></span><span></span></div>`;
   h+=buildMap(day);
   h+='<ol class="tl">';
@@ -592,12 +605,13 @@ function renderDay(day){
     if(dest && prev && !s.noRoute && distKm(prev,dest)>0.15){
       const walk = distKm(prev,dest) < 1.3;
       const dq = s.hotel&&!s.q ? `${dest[0]},${dest[1]}` : (s.q||`${dest[0]},${dest[1]}`);
-      const url = `https://www.google.com/maps/dir/?api=1&origin=${prev[0]},${prev[1]}&destination=${encodeURIComponent(dq)}&travelmode=${walk?'walking':'transit'}`;
+      const dq2 = s._h ? HOME.addr : dq;
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(prevQ||`${prev[0]},${prev[1]}`)}&destination=${encodeURIComponent(dq2)}&travelmode=${walk?'walking':'transit'}`;
       btn += `<a class="btn" href="${url}" target="_blank" rel="noopener">${walk?WALK:TRAIN}${prevName}에서 ${walk?'걸어가는 길':'가는 길'}</a>`;
     }
 
     if(btn) h+=`<div class="btns">${btn}</div>`;
-    if(dest){ prev=dest; prevName = s.m || '숙소'; }
+    if(dest){ prev=dest; prevName = s.m || '숙소'; prevQ = s._h ? HOME.addr : ''; }
     h+='</div></li>';
   });
   h+='</ol>';
@@ -613,17 +627,19 @@ function renderInfo(){
   });
   h+='</section>';
 
-  h+=`<section class="block"><h2>숙소</h2><div class="hotel">
+  h+=`<section class="block"><h2>숙소</h2>${homeBox()}<div class="hotel">
     <div style="font-weight:900;font-size:18px;letter-spacing:-.02em">셀프 체크인 숙소, 3박</div>
     <ul style="margin:8px 0 12px;padding-left:18px;font-size:14px">
-      <li>체크인 16:00~22:00 셀프, 안내는 이틀 전 메시지로</li>
-      <li>체크아웃 10:00, 체크아웃 후 짐 보관 안 됨</li>
-      <li>체크인 당일은 11시부터 짐만 먼저 맡길 수 있음</li>
+      <li>체크인 16:00~22:00, 비대면 셀프 체크인. 객실 번호와 체크인 가이드는 체크인 전날 메시지로</li>
+      <li>22시 이후에도 체크인은 되지만 무인 시설이라 밤에는 문의 대응이 어려워요</li>
+      <li>체크아웃 10:00, 체크아웃 후 짐 보관은 원칙적으로 안 됨</li>
+      <li>체크인 당일 12시 이후엔 객실에 짐을 먼저 둘 수 있어요: 안내대로 입실, 짐을 한곳에 모으기, 문 잠그고 열쇠 챙겨 외출, 짐 사진을 메시지로. 냉장고에 음식을 넣었으면 같이 알리기. 16시까지는 청소 직원이 드나들어요</li>
+      <li>얼리 체크인 14시부터, 레이트 체크아웃 12시까지, 각각 시간당 1,000엔. 미리 연락, 결제는 에어비앤비</li>
       <li>예약 후 숙박자 명부 온라인 제출 필수 (이름, 주소, 여권 사본)</li>
-      <li>하카타역에서 버스 약 11분, 내려서 도보 2분. 공항에서 택시 약 15분</li>
-      <li>주방, 세탁기, 욕조, 에어컨 난방 (바닥 난방 없음). 매일 청소는 없음</li>
+      <li>수건, 목욕 수건, 칫솔, 샴푸, 린스, 바디워시, 세탁 세제, 옷걸이, 드라이어 있음. 엘리베이터 있음</li>
+      <li>전관 금연, 적발되면 위약금 3만 엔</li>
     </ul>
-  </div><p class="map-note">이 페이지는 공개 주소라서 숙소 위치와 예약 링크는 넣지 않았어요. 주소와 도어락 정보는 숙소 예약 앱의 체크인 안내에서 확인하세요.</p></section>`;
+  </div></section>`;
 
   h+='<section class="block apps"><h2>깔아두면 편한 것</h2>';
   APPS.forEach(g=>{ h+=`<h3>${g.g}</h3>`; g.items.forEach(a=>{ h+=`<div class="app"><div class="an">${a.n}${a.jp?`<small>${a.jp}</small>`:''}</div><p>${a.d}</p>${a.w?`<span class="when">${a.w}</span>`:''}${a.link?`<div class="btns"><a class="btn" href="${a.link}" target="_blank" rel="noopener">${a.lt}</a></div>`:''}</div>`; }); });
@@ -688,11 +704,51 @@ function renderInfo(){
 }
 
 function bindInfo(){
+  bindHome();
   let saved={}; try{ saved=JSON.parse(localStorage.getItem('check')||'{}'); }catch(e){}
   const boxes=[...document.querySelectorAll('.check input')];
   const prog=()=>{ const n=boxes.filter(b=>b.checked).length; document.getElementById('prog').textContent = n===boxes.length?'다 챙겼어요':`${boxes.length}개 중 ${n}개 챙김`; };
   boxes.forEach(b=>{ b.checked=!!saved[b.dataset.k]; b.addEventListener('change',()=>{ saved[b.dataset.k]=b.checked; try{ localStorage.setItem('check',JSON.stringify(saved)); }catch(e){} prog(); }); });
   prog();
+}
+
+/* ---------- 숙소 잠금 ---------- */
+const HOME_LOCK={"s": "m/yrQhoL8nSYKloolzSJ/g==", "i": "WjkQZtCkhopy92rz", "c": "1eDAz7lDmsAY8AjyS83VQIuye3r9ETOgb0VWs7T5rgWzcBfj6Un5a9r99hoHc2PknNzPiATKrPZmE8Gkg6yiKZLdqwkUFztAgisfwrHivB9JpEW3RA9Y1JLfW/HGRbgiuOqrL5DKptn8XFjhPVS46iLm3Bm6SSezE+NZC5PmbHyx0VSjf1cj5nlSnMjcpCMX+GYIZx0RvGM6UTI4mHurl4wmTITv6s9MshgOk91Lpncz8tZUMOk8InUKD8c3UBgNU7IWw0SB/lOUc10K/cS2M7QIapS9D017difrN/xMW/rUXa1aCH7uxRn3jAlfSblqYAnQzo+THwVNHG0n9gPsjvoGKf07sLT7q5U1VLTWLQjSaVtoNPAltAS/BkXmIRCvIFIA2uHxSORxpQPylcCHzofSg+TUYdblBiZM6NYPfkkzixpCgy2ra14qfJ9CB7d3+BkHDtfBzTFlJdkX1rqK5JKZv2ow0tYkIY/6Emo9SnuV2RpixQZ2jdTjyPSqJf3wdV8vkWRGBNKZXPzYg4q6sdE3QsPjkquqaBFF3OqPfIGGCa2EGXDzr8GruYhG49WgeGe0JWiABUYn7nPp3+KIDpbAKnS6lQUV3KIxWgBgIfbbp2Ynupy+o1VDXTW2VEaF3YQCjb21SCtReQZ44dYidguGOrbOUpjqhHj7HyS6e2SQW1wvbI1XkiqWOqnYxrAj8ii/CyS27ASf88Yw42BrgHIB0sh7zappAR27xQSUkYFtOuLZ+lOVhKIDnERuhN+Ec+wFqnfUS+e8tqqbG6oJIP8tYStIPnBaTLxMo5z/3DRoSBjnAxmUu72bpszAMzgzuks7HARwCS963wuUHP5WTt5DQL5AvlMqhBjFniT/gk6ZUfao4Abtj48jSAUGFhUb1e4NyZOmK4W8+lSTj/iC", "n": 1000000};
+let HOME=null; try{ HOME=JSON.parse(localStorage.getItem('home-open')||'null'); }catch(e){}
+const b64=t=>Uint8Array.from(atob(t),c=>c.charCodeAt(0));
+async function unlockHome(pw){
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(HOME_LOCK.s),iterations:HOME_LOCK.n,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(HOME_LOCK.i)},key,b64(HOME_LOCK.c));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+function applyHome(){
+  DAYS.forEach(d=>d.stops.forEach(st=>{
+    if(!st.hotel) return;
+    if(HOME && !st.ll){ st.ll=HOME.ll; st.m='숙소'; st._h=true; }
+    else if(!HOME && st._h){ delete st.ll; delete st.m; delete st._h; }
+  }));
+}
+applyHome();
+function homeBox(){
+  if(!HOME) return `<div class="lockbox"><div class="lk-t">${LOCK}숙소 위치는 잠겨 있어요</div><p class="map-note">힌트: 내 번호 (숫자만, 하이픈 없이)</p><div class="lk-row"><input id="pw" type="password" inputmode="numeric" autocomplete="off" aria-label="비밀번호"><button class="addbtn" id="unlock" type="button">열기</button></div><p class="map-note" id="pwmsg" role="status"></p></div>`;
+  const dir=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('博多駅')}&destination=${encodeURIComponent(HOME.addr)}&travelmode=transit`;
+  return `<div class="lockbox open"><div class="lk-t">${esc(HOME.name)}</div>
+    <div class="taxi"><small>택시 기사에게 보여주세요</small><b>${esc(HOME.addr)}</b><span>この住所までお願いします</span></div>
+    <p class="map-note">${esc(HOME.addrKo)}</p>
+    <ul style="margin:8px 0 0;padding-left:18px;font-size:14px"><li><b>버스</b>: ${esc(HOME.bus)}</li><li><b>택시</b>: ${esc(HOME.taxi)}</li><li><b>숙소 연락처</b>: <a href="tel:${esc(HOME.contact)}">${esc(HOME.contact)}</a>, ${esc(HOME.contactNote)}</li></ul>
+    <div class="btns"><a class="btn" href="${esc(HOME.map)}" target="_blank" rel="noopener">${PIN}숙소 지도</a><a class="btn" href="${dir}" target="_blank" rel="noopener">${TRAIN}하카타역에서 가는 길</a><button class="btn" id="relock" type="button">다시 잠그기</button></div></div>`;
+}
+function bindHome(){
+  const u=document.getElementById('unlock'), pw=document.getElementById('pw'), msg=document.getElementById('pwmsg');
+  if(u){
+    const go=async()=>{ msg.textContent='여는 중'; u.disabled=true;
+      try{ HOME=await unlockHome(pw.value.replace(/[^0-9]/g,'')); try{ localStorage.setItem('home-open',JSON.stringify(HOME)); }catch(e){} applyHome(); show('prep',false); }
+      catch(e){ msg.textContent = window.crypto&&crypto.subtle ? '비밀번호가 맞지 않아요' : '이 브라우저에서는 열 수 없어요'; u.disabled=false; } };
+    u.addEventListener('click',go); pw.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  }
+  const r=document.getElementById('relock');
+  if(r) r.addEventListener('click',()=>{ HOME=null; try{ localStorage.removeItem('home-open'); }catch(e){} applyHome(); show('prep',false); });
 }
 
 /* ---------- 날씨 ---------- */
