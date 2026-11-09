@@ -146,7 +146,13 @@ a{color:inherit}
 .jp-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;gap:6px;font:inherit;font-weight:800;font-size:14px;color:#fff;background:var(--coral);border:0;border-radius:999px;padding:10px 16px 10px 12px;box-shadow:0 6px 18px rgba(0,60,0,.28);cursor:pointer}
 .jp-fab span{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#FFF1B8;color:#005E10;font-size:15px}
 .jp-fab:focus-visible{outline:3px solid var(--coral-d);outline-offset:3px}
-.jp-dlg{width:min(560px,100vw);max-width:100vw;max-height:88vh;margin:auto auto 0;border:0;border-radius:24px 24px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom,0px));background:var(--paper);color:var(--ink);overflow:auto}
+.jp-dlg{width:min(560px,100vw);max-width:100vw;height:88vh;max-height:88vh;margin:auto auto 0;border:0;border-radius:24px 24px 0 0;padding:0 16px calc(20px + env(safe-area-inset-bottom,0px));background:var(--paper);color:var(--ink);overflow:auto;overscroll-behavior:contain}
+.jp-top{position:sticky;top:0;z-index:1;background:var(--paper);padding-top:16px;margin:0 -16px;padding-left:16px;padding-right:16px;border-bottom:1px solid var(--line)}
+.jp-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 12px;scrollbar-width:none;overscroll-behavior:contain}
+.jp-chips::-webkit-scrollbar{display:none}
+.jp-chip{flex:none;font:inherit;font-size:13.5px;font-weight:700;padding:7px 13px;border-radius:999px;border:1.5px solid var(--coral);background:transparent;color:var(--coral-d);cursor:pointer}
+.jp-chip[aria-selected="true"]{background:var(--coral);color:#fff}
+.jp-tip{font-size:13px;color:var(--coral-d);background:var(--coral-l);border-radius:8px;padding:2px 10px;margin:-6px 0 12px}
 .jp-dlg::backdrop{background:rgba(10,30,12,.45)}
 .jp-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 4px}
 .jp-head b{font-size:20px;letter-spacing:-.02em}
@@ -157,8 +163,8 @@ a{color:inherit}
 .jp-item span{font-weight:700;font-size:15px}
 .jp-item small{font-size:13px;color:var(--ink2)}
 .jp-item:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
-.jp-big{min-height:62vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px;position:relative;padding-top:40px}
-.jp-big .jp-x{position:absolute;left:0;top:0}
+.jp-big{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px;position:relative;padding-top:40px}
+.jp-big .jp-x{position:absolute;left:0;top:16px}
 .jp-ja{font-size:clamp(30px,9vw,46px);font-weight:900;line-height:1.35;margin:0;color:var(--coral-d);word-break:normal;overflow-wrap:anywhere;max-width:100%}
 .jp-read{font-size:16px;color:var(--ink2);margin:0}
 .jp-ko{font-size:18px;font-weight:700;margin:6px 0 14px}
@@ -830,64 +836,141 @@ async function fillWx(id){
 
 /* ---------- 일본어 보여주기 ---------- */
 const PHRASES=[
-  {g:'식당', items:[
+  {g:'기본', items:[
+    ['저기요, 실례합니다','すみません','스미마센','점원 부를 때, 길 물을 때 다 써요'],
+    ['감사합니다','ありがとうございます','아리가토- 고자이마스'],
+    ['괜찮아요, 됐어요','大丈夫です','다이죠-부데스','권유를 거절할 때도 써요'],
+    ['네 / 아니요','はい / いいえ','하이 / 이-에'],
+    ['잠깐만요','ちょっと待ってください','춋토 맛테 쿠다사이'],
+    ['다시 한 번 말해 주세요','もう一度お願いします','모- 이치도 오네가이시마스'],
+    ['천천히 말해 주세요','ゆっくり話してください','윳쿠리 하나시테 쿠다사이'],
+    ['여기에 써 주세요','ここに書いてください','코코니 카이테 쿠다사이'],
+    ['일본어를 못해요','日本語が話せません','니혼고가 하나세마센'],
+    ['영어 할 수 있어요?','英語は話せますか？','에-고와 하나세마스카']
+  ]},
+  {g:'식당 입장', items:[
     ['두 명이에요','二人です','후타리데스'],
     ['예약했어요','予約しています','요야쿠 시테이마스'],
+    ['자리 있어요?','席は空いていますか？','세키와 아이테 이마스카'],
+    ['카운터 자리도 괜찮아요','カウンター席でも大丈夫です','카운타-세키데모 다이죠-부데스'],
     ['얼마나 기다려요?','どのくらい待ちますか？','도노쿠라이 마치마스카'],
+    ['이름 적고 기다릴게요','名前を書いて待ちます','나마에오 카이테 마치마스'],
+    ['라스트 오더는 몇 시예요?','ラストオーダーは何時ですか？','라스토 오-다-와 난지데스카']
+  ]},
+  {g:'주문', items:[
+    ['주문할게요','注文お願いします','츄-몬 오네가이시마스'],
     ['한국어 메뉴 있어요?','韓国語のメニューはありますか？','칸코쿠고노 메뉴-와 아리마스카'],
     ['추천 메뉴가 뭐예요?','おすすめは何ですか？','오스스메와 난데스카'],
-    ['이거 주세요','これをください','코레오 쿠다사이'],
+    ['이거 주세요','これをください','코레오 쿠다사이','메뉴를 손가락으로 가리키면서'],
+    ['이건 뭐예요?','これは何ですか？','코레와 난데스카'],
+    ['같은 걸로 하나 더 주세요','同じものをもう一つください','오나지 모노오 모- 히토츠 쿠다사이'],
+    ['2인분 주세요','二人前ください','니닌마에 쿠다사이'],
+    ['물 주세요','お水をください','오미즈오 쿠다사이'],
+    ['앞접시 주세요','取り皿をください','토리자라오 쿠다사이'],
+    ['젓가락 하나 더 주세요','お箸をもう一膳ください','오하시오 모- 이치젠 쿠다사이'],
+    ['맵지 않게 해 주세요','辛くしないでください','카라쿠 시나이데 쿠다사이'],
+    ['포장해 주세요','持ち帰りでお願いします','모치카에리데 오네가이시마스']
+  ]},
+  {g:'술, 이자카야', items:[
     ['생맥주 두 잔 주세요','生ビールを二つください','나마비-루오 후타츠 쿠다사이'],
     ['마스터즈드림 생맥 있어요?','マスターズドリームの生はありますか？','마스타-즈도리-무노 나마와 아리마스카'],
-    ['물 주세요','お水をください','오미즈오 쿠다사이'],
-    ['포장해 주세요','持ち帰りでお願いします','모치카에리데 오네가이시마스'],
+    ['하이볼 주세요','ハイボールください','하이보-루 쿠다사이'],
+    ['추천하는 일본 술 있어요?','おすすめの日本酒はありますか？','오스스메노 니혼슈와 아리마스카'],
+    ['사케는 차갑게 주세요','冷やでお願いします','히야데 오네가이시마스'],
+    ['사케는 따뜻하게 주세요','熱燗でお願いします','아츠칸데 오네가이시마스'],
+    ['한 잔 더 주세요','おかわりください','오카와리 쿠다사이'],
+    ['건배!','乾杯！','칸파이']
+  ]},
+  {g:'라멘, 스시, 나베', items:[
+    ['면은 단단하게 해 주세요','麺はかためでお願いします','멘와 카타메데 오네가이시마스'],
+    ['면을 아주 단단하게','バリカタでお願いします','바리카타데 오네가이시마스','하카타 라멘집에서 통하는 말'],
+    ['면 사리 추가해 주세요','替え玉ください','카에다마 쿠다사이','국물을 남겨두고 면만 추가'],
+    ['와사비 빼 주세요','わさび抜きでお願いします','와사비누키데 오네가이시마스'],
+    ['오늘 추천 생선이 뭐예요?','今日のおすすめは何ですか？','쿄-노 오스스메와 난데스카'],
+    ['오마카세로 부탁해요','お任せでお願いします','오마카세데 오네가이시마스'],
+    ['녹차 주세요','お茶をください','오챠오 쿠다사이'],
+    ['모츠나베 2인분 주세요','もつ鍋を二人前ください','모츠나베오 니닌마에 쿠다사이'],
+    ['짬뽕면 추가해 주세요','ちゃんぽん麺を追加でお願いします','챤폰멘오 츠이카데 오네가이시마스','모츠나베 마무리'],
+    ['죽으로 마무리해 주세요','雑炊にしてください','조-스이니 시테 쿠다사이','나베 국물에 밥과 달걀']
+  ]},
+  {g:'계산', items:[
     ['계산해 주세요','お会計お願いします','오카이케- 오네가이시마스'],
     ['카드 되나요?','カードは使えますか？','카-도와 츠카에마스카'],
-    ['잘 먹었습니다','ごちそうさまでした','고치소-사마데시타']
+    ['같이 계산할게요','一緒でお願いします','잇쇼데 오네가이시마스'],
+    ['따로 계산할게요','別々でお願いします','베츠베츠데 오네가이시마스'],
+    ['영수증 주세요','レシートをください','레시-토오 쿠다사이'],
+    ['잘 먹었습니다','ごちそうさまでした','고치소-사마데시타','가게를 나설 때 한마디']
   ]},
   {g:'이동', items:[
     ['이 주소로 가 주세요','この住所までお願いします','코노 쥬-쇼마데 오네가이시마스'],
     ['여기서 세워 주세요','ここで止めてください','코코데 토메테 쿠다사이'],
+    ['얼마나 걸려요?','どのくらいかかりますか？','도노쿠라이 카카리마스카'],
+    ['카드로 낼게요','カードで払います','카-도데 하라이마스'],
+    ['택시 불러 주세요','タクシーを呼んでください','타쿠시-오 욘데 쿠다사이'],
     ['이 버스 하카타역 가요?','このバスは博多駅に行きますか？','코노 바스와 하카타에키니 이키마스카'],
+    ['다자이후 가는 버스는 어디서 타요?','太宰府行きのバスはどこから乗りますか？','다자이후유키노 바스와 도코카라 노리마스카'],
     ['국제선 터미널 가요?','国際線ターミナルに行きますか？','코쿠사이센 타-미나루니 이키마스카'],
+    ['내릴게요','降ります','오리마스','버스가 붐빌 때'],
     ['하카타역은 어디예요?','博多駅はどこですか？','하카타에키와 도코데스카'],
+    ['표는 어디서 사요?','切符はどこで買えますか？','킵푸와 도코데 카에마스카'],
+    ['교통카드 충전하고 싶어요','チャージしたいです','챠-지 시타이데스'],
     ['코인로커는 어디예요?','コインロッカーはどこですか？','코인록카-와 도코데스카']
   ]},
   {g:'쇼핑, 면세', items:[
     ['면세 되나요?','免税できますか？','멘제- 데키마스카'],
+    ['이거 얼마예요?','これはいくらですか？','코레와 이쿠라데스카'],
+    ['시식해도 돼요?','試食してもいいですか？','시쇼쿠 시테모 이-데스카'],
+    ['입어 봐도 돼요?','試着してもいいですか？','시챠쿠 시테모 이-데스카'],
+    ['다른 색 있어요?','他の色はありますか？','호카노 이로와 아리마스카'],
+    ['선물용으로 포장해 주세요','プレゼント用に包んでください','프레젠토요-니 츠츤데 쿠다사이'],
+    ['따로 봉투에 넣어 주세요','別々の袋に入れてください','베츠베츠노 후쿠로니 이레테 쿠다사이'],
     ['봉투 주세요','袋をください','후쿠로오 쿠다사이'],
-    ['봉투는 괜찮아요','袋はいりません','후쿠로와 이리마센'],
-    ['영수증 주세요','レシートをください','레시-토오 쿠다사이'],
-    ['이거 얼마예요?','これはいくらですか？','코레와 이쿠라데스카']
+    ['봉투는 괜찮아요','袋はいりません','후쿠로와 이리마센']
   ]},
-  {g:'도움', items:[
-    ['화장실은 어디예요?','トイレはどこですか？','토이레와 도코데스카'],
+  {g:'숙소, 짐', items:[
+    ['짐 맡길 수 있어요?','荷物を預けられますか？','니모츠오 아즈케라레마스카'],
+    ['와이파이 비밀번호가 뭐예요?','Wi-Fiのパスワードは何ですか？','와이파이노 파스와-도와 난데스카'],
     ['사진 찍어 주실 수 있어요?','写真を撮ってもらえますか？','샤신오 톳테 모라에마스카'],
-    ['일본어를 못해요','日本語が話せません','니혼고가 하나세마센'],
-    ['영어 할 수 있어요?','英語は話せますか？','에-고와 하나세마스카'],
+    ['화장실은 어디예요?','トイレはどこですか？','토이레와 도코데스카']
+  ]},
+  {g:'긴급', items:[
     ['도와주세요','助けてください','타스케테 쿠다사이'],
+    ['길을 잃었어요','道に迷いました','미치니 마요이마시타'],
+    ['여권을 잃어버렸어요','パスポートをなくしました','파스포-토오 나쿠시마시타'],
+    ['경찰을 불러 주세요','警察を呼んでください','케-사츠오 욘데 쿠다사이'],
+    ['구급차를 불러 주세요','救急車を呼んでください','큐-큐-샤오 욘데 쿠다사이'],
+    ['약국은 어디예요?','薬局はどこですか？','얏쿄쿠와 도코데스카'],
+    ['배가 아파요','お腹が痛いです','오나카가 이타이데스'],
     ['병원에 가고 싶어요','病院に行きたいです','뵤-인니 이키타이데스']
   ]}
 ];
+let jpCat=0;
 function jpSheet(){
-  return `<div class="jp-head"><b>일본어 보여주기</b><button class="jp-x" type="button" data-jp-close aria-label="닫기">×</button></div>
-  <p class="map-note" style="margin:0 2px 8px">누르면 크게 띄워져요. 화면을 그대로 상대에게 보여주세요.</p>
-  ${PHRASES.map((g,gi)=>`<h3>${g.g}</h3><div class="jp-list">${g.items.map((p,pi)=>`<button class="jp-item" type="button" data-jp="${gi}-${pi}"><span>${p[0]}</span><small lang="ja">${p[1]}</small></button>`).join('')}</div>`).join('')}`;
+  const g=PHRASES[jpCat];
+  return `<div class="jp-top"><div class="jp-head"><b>일본어 보여주기</b><button class="jp-x" type="button" data-jp-close aria-label="닫기">×</button></div>
+  <div class="jp-chips" role="tablist">${PHRASES.map((c,i)=>`<button class="jp-chip" type="button" role="tab" aria-selected="${i===jpCat}" data-jp-cat="${i}">${c.g}</button>`).join('')}</div></div>
+  <p class="map-note" style="margin:10px 2px 8px">누르면 크게 띄워져요. 화면을 그대로 상대에게 보여주세요.</p>
+  <div class="jp-list">${g.items.map((p,pi)=>`<button class="jp-item" type="button" data-jp="${jpCat}-${pi}"><span>${p[0]}</span><small lang="ja">${p[1]}</small></button>`).join('')}</div>`;
 }
 function jpBig(p){
   return `<div class="jp-big"><button class="jp-x" type="button" data-jp-back aria-label="목록으로">‹</button>
-    <p class="jp-ja" lang="ja">${p[1]}</p><p class="jp-read">${p[2]}</p><p class="jp-ko">${p[0]}</p>
+    <p class="jp-ja" lang="ja">${p[1]}</p><p class="jp-read">${p[2]}</p><p class="jp-ko">${p[0]}</p>${p[3]?`<p class="jp-tip">${p[3]}</p>`:''}
     <button class="btn" type="button" data-jp-back>다른 문장 보기</button></div>`;
 }
 const jpDlg=document.createElement('dialog'); jpDlg.className='jp-dlg'; jpDlg.setAttribute('aria-label','일본어 보여주기');
 document.body.appendChild(jpDlg);
 const jpFab=document.createElement('button'); jpFab.className='jp-fab'; jpFab.type='button'; jpFab.innerHTML='<span lang="ja">あ</span>일본어'; jpFab.setAttribute('aria-label','일본어 보여주기 열기');
 document.body.appendChild(jpFab);
-jpFab.addEventListener('click',()=>{ jpDlg.innerHTML=jpSheet(); jpDlg.showModal(); jpDlg.scrollTop=0; });
+let jpY=0;
+function lockScroll(){ jpY=scrollY; const b=document.body.style; b.position='fixed'; b.top=`-${jpY}px`; b.left='0'; b.right='0'; b.width='100%'; document.documentElement.style.overflow='hidden'; }
+function unlockScroll(){ const b=document.body.style; b.position=''; b.top=''; b.left=''; b.right=''; b.width=''; document.documentElement.style.overflow=''; scrollTo(0,jpY); }
+jpFab.addEventListener('click',()=>{ jpDlg.innerHTML=jpSheet(); lockScroll(); jpDlg.showModal(); jpDlg.scrollTop=0; });
+jpDlg.addEventListener('close',unlockScroll);
 jpDlg.addEventListener('click',e=>{
   if(e.target===jpDlg || e.target.closest('[data-jp-close]')){ jpDlg.close(); return; }
+  const c=e.target.closest('[data-jp-cat]'); if(c){ jpCat=+c.dataset.jpCat; jpDlg.innerHTML=jpSheet(); jpDlg.scrollTop=0; const a=jpDlg.querySelector('.jp-chip[aria-selected="true"]'); if(a) a.scrollIntoView({inline:'center',block:'nearest'}); return; }
   const it=e.target.closest('[data-jp]'); if(it){ const [g,i]=it.dataset.jp.split('-').map(Number); jpDlg.innerHTML=jpBig(PHRASES[g].items[i]); jpDlg.scrollTop=0; return; }
-  if(e.target.closest('[data-jp-back]')){ jpDlg.innerHTML=jpSheet(); }
+  if(e.target.closest('[data-jp-back]')){ jpDlg.innerHTML=jpSheet(); const a=jpDlg.querySelector('.jp-chip[aria-selected="true"]'); if(a) a.scrollIntoView({inline:'center',block:'nearest'}); }
 });
 
 /* ---------- 오프라인 ---------- */
