@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>후쿠오카 3박 4일</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#007F00">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="후쿠오카">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -138,6 +143,26 @@ a{color:inherit}
 .taxi small{display:block;font-size:12px;opacity:.9}
 .taxi b{display:block;font-size:20px;line-height:1.35;margin:4px 0}
 .taxi span{font-size:14px}
+.jp-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;gap:6px;font:inherit;font-weight:800;font-size:14px;color:#fff;background:var(--coral);border:0;border-radius:999px;padding:10px 16px 10px 12px;box-shadow:0 6px 18px rgba(0,60,0,.28);cursor:pointer}
+.jp-fab span{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#FFF1B8;color:#005E10;font-size:15px}
+.jp-fab:focus-visible{outline:3px solid var(--coral-d);outline-offset:3px}
+.jp-dlg{width:min(560px,100vw);max-width:100vw;max-height:88vh;margin:auto auto 0;border:0;border-radius:24px 24px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom,0px));background:var(--paper);color:var(--ink);overflow:auto}
+.jp-dlg::backdrop{background:rgba(10,30,12,.45)}
+.jp-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 4px}
+.jp-head b{font-size:20px;letter-spacing:-.02em}
+.jp-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+.jp-dlg h3{font-size:13px;color:var(--coral-d);margin:14px 2px 6px}
+.jp-list{display:grid;gap:6px}
+.jp-item{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:2px;font:inherit;padding:10px 14px;border-radius:14px;border:0;background:var(--card);box-shadow:0 0 0 1px var(--line);color:var(--ink);cursor:pointer}
+.jp-item span{font-weight:700;font-size:15px}
+.jp-item small{font-size:13px;color:var(--ink2)}
+.jp-item:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.jp-big{min-height:62vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px;position:relative;padding-top:40px}
+.jp-big .jp-x{position:absolute;left:0;top:0}
+.jp-ja{font-size:clamp(30px,9vw,46px);font-weight:900;line-height:1.35;margin:0;color:var(--coral-d);word-break:normal;overflow-wrap:anywhere;max-width:100%}
+.jp-read{font-size:16px;color:var(--ink2);margin:0}
+.jp-ko{font-size:18px;font-weight:700;margin:6px 0 14px}
+footer{padding-bottom:90px}
 .guide{margin-top:10px;border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-bottom:0}
 .guide summary{padding:11px 14px;font-size:14px;color:var(--coral-d)}
 .guide .in{padding:0 12px 14px}
@@ -660,6 +685,11 @@ function renderInfo(){
     <li>불포함: 식사, 음료, 개인 경비</li>
     <li>캐리어가 있으면 예약처에 미리 알리기</li>
     <li>투어 복귀는 오리엔탈 호텔 1층 로손 편의점 앞</li></ul></div></details>
+  <details><summary>인터넷 없이 보기 (홈 화면에 추가)</summary><div class="in"><ul>
+    <li><b>아이폰</b>: 사파리로 사이트를 열고 아래 공유 버튼, ‘홈 화면에 추가’</li>
+    <li><b>안드로이드</b>: 크롬으로 열고 오른쪽 위 메뉴, ‘홈 화면에 추가’ 또는 ‘앱 설치’</li>
+    <li>출발 전에 와이파이에서 한 번 열고 날짜 탭을 다 눌러두면, 이후엔 인터넷이 끊겨도 일정, 지도, 숙소 정보가 열려요</li>
+    <li>구글 지도 미리보기, 길찾기, 날씨 새로고침은 인터넷이 있어야 돼요. 날씨는 마지막으로 본 값이 남아 있어요</li></ul></div></details>
   <details><summary>짐: 캐리어 1개, 백팩 1개</summary><div class="in"><ul>
     <li><b>위탁 수하물</b>: 진에어, 에어서울 모두 1인 15kg. 캐리어 하나를 둘이 같이 쓰면 함께 체크인할 때 둘의 허용량을 합쳐 주기도 하지만 항공사와 현장마다 달라요. 가는 길은 15kg 안으로 싸두면 걱정 없어요</li>
     <li><b>오는 길</b>: 쇼핑으로 15kg을 넘길 것 같으면 둘이 같이 카운터에 가서 합산을 부탁하고, 안 되면 항공사 앱에서 추가 수하물을 미리 사는 게 공항 현장 결제보다 싸요</li>
@@ -797,6 +827,73 @@ async function fillWx(id){
   el.innerHTML=`<span class="wx-ic">${WI[ic]}</span><span class="wx-b"><span class="loc">${loc.n}</span><b>${tx}</b></span><span class="wx-t num"><span class="hi">${Math.round(v.max)}°</span><span class="lo">최저 ${Math.round(v.min)}°</span></span><div class="wx-foot"><span>${v.past?'그날 날씨':'예보'}</span>${rain?`<span>${rain}</span>`:''}</div>`;
 }
 
+
+/* ---------- 일본어 보여주기 ---------- */
+const PHRASES=[
+  {g:'식당', items:[
+    ['두 명이에요','二人です','후타리데스'],
+    ['예약했어요','予約しています','요야쿠 시테이마스'],
+    ['얼마나 기다려요?','どのくらい待ちますか？','도노쿠라이 마치마스카'],
+    ['한국어 메뉴 있어요?','韓国語のメニューはありますか？','칸코쿠고노 메뉴-와 아리마스카'],
+    ['추천 메뉴가 뭐예요?','おすすめは何ですか？','오스스메와 난데스카'],
+    ['이거 주세요','これをください','코레오 쿠다사이'],
+    ['생맥주 두 잔 주세요','生ビールを二つください','나마비-루오 후타츠 쿠다사이'],
+    ['마스터즈드림 생맥 있어요?','マスターズドリームの生はありますか？','마스타-즈도리-무노 나마와 아리마스카'],
+    ['물 주세요','お水をください','오미즈오 쿠다사이'],
+    ['포장해 주세요','持ち帰りでお願いします','모치카에리데 오네가이시마스'],
+    ['계산해 주세요','お会計お願いします','오카이케- 오네가이시마스'],
+    ['카드 되나요?','カードは使えますか？','카-도와 츠카에마스카'],
+    ['잘 먹었습니다','ごちそうさまでした','고치소-사마데시타']
+  ]},
+  {g:'이동', items:[
+    ['이 주소로 가 주세요','この住所までお願いします','코노 쥬-쇼마데 오네가이시마스'],
+    ['여기서 세워 주세요','ここで止めてください','코코데 토메테 쿠다사이'],
+    ['이 버스 하카타역 가요?','このバスは博多駅に行きますか？','코노 바스와 하카타에키니 이키마스카'],
+    ['국제선 터미널 가요?','国際線ターミナルに行きますか？','코쿠사이센 타-미나루니 이키마스카'],
+    ['하카타역은 어디예요?','博多駅はどこですか？','하카타에키와 도코데스카'],
+    ['코인로커는 어디예요?','コインロッカーはどこですか？','코인록카-와 도코데스카']
+  ]},
+  {g:'쇼핑, 면세', items:[
+    ['면세 되나요?','免税できますか？','멘제- 데키마스카'],
+    ['봉투 주세요','袋をください','후쿠로오 쿠다사이'],
+    ['봉투는 괜찮아요','袋はいりません','후쿠로와 이리마센'],
+    ['영수증 주세요','レシートをください','레시-토오 쿠다사이'],
+    ['이거 얼마예요?','これはいくらですか？','코레와 이쿠라데스카']
+  ]},
+  {g:'도움', items:[
+    ['화장실은 어디예요?','トイレはどこですか？','토이레와 도코데스카'],
+    ['사진 찍어 주실 수 있어요?','写真を撮ってもらえますか？','샤신오 톳테 모라에마스카'],
+    ['일본어를 못해요','日本語が話せません','니혼고가 하나세마센'],
+    ['영어 할 수 있어요?','英語は話せますか？','에-고와 하나세마스카'],
+    ['도와주세요','助けてください','타스케테 쿠다사이'],
+    ['병원에 가고 싶어요','病院に行きたいです','뵤-인니 이키타이데스']
+  ]}
+];
+function jpSheet(){
+  return `<div class="jp-head"><b>일본어 보여주기</b><button class="jp-x" type="button" data-jp-close aria-label="닫기">×</button></div>
+  <p class="map-note" style="margin:0 2px 8px">누르면 크게 띄워져요. 화면을 그대로 상대에게 보여주세요.</p>
+  ${PHRASES.map((g,gi)=>`<h3>${g.g}</h3><div class="jp-list">${g.items.map((p,pi)=>`<button class="jp-item" type="button" data-jp="${gi}-${pi}"><span>${p[0]}</span><small lang="ja">${p[1]}</small></button>`).join('')}</div>`).join('')}`;
+}
+function jpBig(p){
+  return `<div class="jp-big"><button class="jp-x" type="button" data-jp-back aria-label="목록으로">‹</button>
+    <p class="jp-ja" lang="ja">${p[1]}</p><p class="jp-read">${p[2]}</p><p class="jp-ko">${p[0]}</p>
+    <button class="btn" type="button" data-jp-back>다른 문장 보기</button></div>`;
+}
+const jpDlg=document.createElement('dialog'); jpDlg.className='jp-dlg'; jpDlg.setAttribute('aria-label','일본어 보여주기');
+document.body.appendChild(jpDlg);
+const jpFab=document.createElement('button'); jpFab.className='jp-fab'; jpFab.type='button'; jpFab.innerHTML='<span lang="ja">あ</span>일본어'; jpFab.setAttribute('aria-label','일본어 보여주기 열기');
+document.body.appendChild(jpFab);
+jpFab.addEventListener('click',()=>{ jpDlg.innerHTML=jpSheet(); jpDlg.showModal(); jpDlg.scrollTop=0; });
+jpDlg.addEventListener('click',e=>{
+  if(e.target===jpDlg || e.target.closest('[data-jp-close]')){ jpDlg.close(); return; }
+  const it=e.target.closest('[data-jp]'); if(it){ const [g,i]=it.dataset.jp.split('-').map(Number); jpDlg.innerHTML=jpBig(PHRASES[g].items[i]); jpDlg.scrollTop=0; return; }
+  if(e.target.closest('[data-jp-back]')){ jpDlg.innerHTML=jpSheet(); }
+});
+
+/* ---------- 오프라인 ---------- */
+if('serviceWorker' in navigator && location.protocol==='https:' && !/claude\.ai$/.test(location.hostname)){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 
 /* ---------- 탭, 라우팅 ---------- */
 const tabs=document.getElementById('tabs'), view=document.getElementById('view');
