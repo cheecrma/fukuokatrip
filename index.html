@@ -169,6 +169,16 @@ a{color:inherit}
 .jp-read{font-size:16px;color:var(--ink2);margin:0}
 .jp-ko{font-size:18px;font-weight:700;margin:6px 0 14px}
 footer{padding-bottom:90px}
+.tour{font-size:14px}
+.tour-lead{margin:8px 2px 4px}
+.tour-tl{list-style:none;margin:8px 0 4px;padding:0;border-left:2px dashed var(--line)}
+.tour-tl li{display:grid;grid-template-columns:52px 1fr;gap:8px;padding:5px 0 5px 12px;position:relative}
+.tour-tl li::before{content:"";position:absolute;left:-6px;top:11px;width:10px;height:10px;border-radius:50%;background:var(--coral)}
+.tour-tl b{font-family:"Bricolage Grotesque","Gothic A1",sans-serif;color:var(--coral-d)}
+.tour h4{font-size:14.5px;margin:14px 2px 2px;color:var(--coral-d)}
+.tour p{margin:2px 2px 0}
+.tour ul{margin:4px 0 0;padding-left:18px}
+.tour li::marker{color:var(--coral)}
 .guide{margin-top:10px;border-radius:16px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-bottom:0}
 .guide summary{padding:11px 14px;font-size:14px;color:var(--coral-d)}
 .guide .in{padding:0 12px 14px}
@@ -313,7 +323,7 @@ const DAYS = [
       {alt:true, n:'포타마 쿠시다 오모테산도점', jp:'ポーたま 櫛田表参道店', m:'포크 타마고 오니기리', nt:'후쿠오카 1호 매장, 아침 7시 오픈. 하카타역에서 걸어서 15분 정도라 집합 전 동선에는 마루이점이 편해요.', q:'ポーたま 櫛田表参道店'},
       {alt:true, n:'로손 오리엔탈 호텔 1층', jp:'ローソン', m:'편의점 오니기리, 커피, 생수', nt:'집합 장소가 있는 바로 그 건물. 시간이 빠듯하거나 음료만 살 때.', q:'ローソン オリエンタルホテル福岡博多ステーション'}
      ], ll:LL.oriental, m:'하카타'},
-    {t:'08:15', title:'집합 장소 도착', sub:'오리엔탈 호텔 후쿠오카 하카타스테이션 앞', li:['하카타역 반대편 치쿠시구치 쪽, 마루이에서 역 안을 가로질러 걸어서 5분 정도. ‘와쿠와쿠버스’ 깃발 든 가이드 찾기','08:30 미팅, 08:40 출발. 지각하면 환불이 안 돼요','자유석 선착순이라 일찍 갈수록 좋은 자리'], ll:LL.oriental, m:'하카타', q:'オリエンタルホテル福岡 博多ステーション'},
+    {t:'08:15', title:'집합 장소 도착', sub:'하카타역 치쿠시구치, 오리엔탈 호텔 1층 로손 편의점 앞', li:['하카타역 반대편 치쿠시구치 쪽, 마루이에서 역 안을 가로질러 걸어서 5분 정도','08:30 미팅, 08:40 출발. 지각하면 환불이 안 돼요','같은 자리에서 다른 투어 업체들도 미팅해요. 먼저 와 있는 가이드가 있어도 ‘와쿠와쿠버스’ 깃발인지 꼭 확인','좌석은 선착순 자유석이고 투어가 끝날 때까지 같은 자리예요. 일찍 가서 둘이 나란히 앉을 자리 잡기'], links:[{t:'집합 장소 지도 (투어사 안내)', u:'https://maps.app.goo.gl/dKZDgNMVVWsA7WXy5'}], ll:LL.oriental, m:'하카타', q:'オリエンタルホテル福岡 博多ステーション'},
     {t:'08:40', title:'하카타역 출발', li:['히타까지 약 70분, 가는 길에 자는 시간을 줘요','전 좌석 USB 충전 가능']},
     {t:'09:50', title:'히타 마메다마치', sub:'약 130분 자유 시간', li:['에도시대 거리가 남아 ‘서쪽의 교토’로 불리는 곳','양조장에서 전통주 시음, 간장 만드는 과정 구경','후기 추천: 텐료 히나어전 박물관'], foods:[
       {n:'마메다마치 길거리 간식', m:'쿠리소바 만쥬, 간장 소프트아이스크림, 카스테라', nt:'작은 상점이 많아 현금이 편해요.'}
@@ -379,11 +389,37 @@ const DAYS = [
    ]}
 ];
 
+const TOUR_INFO=`<details class="more"><summary>투어 코스 자세히 보기</summary><div class="in tour">
+  <p class="tour-lead">와쿠와쿠버스 후쿠오카 4호선, 히타와 유후인 두 마을만 들러서 한 곳에 오래 머무는 여유로운 당일 버스투어예요. 한국어 가이드가 동행하는 조인 투어로 8명에서 44명까지 함께 타요.</p>
+  <ol class="tour-tl">
+    <li><b>08:30</b><span>미팅, 하카타역 치쿠시구치 오리엔탈 호텔 1층 로손 앞</span></li>
+    <li><b>08:40</b><span>하카타역 출발. 히타까지 가는 길에 잠깐 잘 수 있는 시간을 줘요</span></li>
+    <li><b>09:50</b><span>히타 마메다마치, 약 130분 자유 시간</span></li>
+    <li><b>12:50</b><span>유후인, 약 200분 자유 시간</span></li>
+    <li><b>16:45</b><span>쿠스 휴게소, 약 20분</span></li>
+    <li><b>경유</b><span>라라포트. 원하면 여기서 중도 하차, 버스는 하카타로 직행</span></li>
+    <li><b>18:30</b><span>하카타역 도착, 출발했던 로손 앞에서 하차</span></li>
+  </ol>
+  <h4>히타 마메다마치</h4>
+  <p>에도시대 상인 거리가 그대로 남아 ‘서쪽의 교토’라고 불리는 동네예요. 오래된 양조장에서 전통주를 맛보고 간장을 만드는 과정을 볼 수 있고, 골목마다 쿠리소바 만쥬, 간장 소프트아이스크림, 카스테라 같은 간식이 있어요. 후기에는 텐료 히나어전 박물관이 자주 나와요.</p>
+  <h4>유후인</h4>
+  <p>영국 코츠월드 마을처럼 꾸민 플로랄빌리지, 물안개와 작은 신사가 있는 긴린코 호수가 대표 포토 스팟이에요. 그 사이 유노츠보 거리에 카페와 기념품 가게가 이어져 있어 자유롭게 둘러보면 돼요.</p>
+  <h4>쿠스 휴게소</h4>
+  <p>명물 생요구르트를 꼭 먹어보라는 후기가 많아요.</p>
+  <h4>알아두기</h4>
+  <ul>
+    <li>포함: 한국어 가이드, 디럭스 버스 (전 좌석 USB 충전)</li>
+    <li>불포함: 식사, 음료, 개인 경비</li>
+    <li>관광지는 카드가 안 되는 곳이 많아 현금 준비</li>
+    <li>이동 중에 가이드가 맛집, 쇼핑, 명소를 알려주고 지도 좌표도 찍어줘요</li>
+    <li>교통과 날씨에 따라 현장에서 일정이 바뀔 수 있어요</li>
+  </ul>
+</div></details>`;
 const BOOK = [
   {k:'항공권, 성인 2명', v:'진에어 LJ0461 / 에어서울 RS0458', d:'가는 편 11.11 17:25 인천 T2, 오는 편 11.14 17:00 후쿠오카, 인천 T2 도착'},
   {k:'공항버스, 2명', v:'인천공항 T2행 공항버스', d:'11.11 13:25, 경기공항리무진'},
   {k:'숙소, 3박', v:'셀프 체크인 숙소', d:'11.11 체크인 16시부터, 11.14 체크아웃 10시'},
-  {k:'버스투어, 2명', v:'와쿠와쿠 4호선 히타 유후인', d:'11.12 08:30 집합, 네이버 예약', link:'https://www.klook.com/ko/activity/124367-wakuwaku-bus-one-day-tour-hita-yufuin/', linkT:'투어 코스 소개'}
+  {k:'버스투어, 2명', v:'와쿠와쿠 4호선 히타 유후인', d:'11.12 08:30 집합, 네이버 예약', tour:true}
 ];
 
 const APPS = [
@@ -628,7 +664,7 @@ function renderDay(day){
       (s.sub?`<p class="sub">${s.sub}</p>`:'');
     if(s.flight){ const f=s.flight; h+=`<div class="flight"><div class="c num">${f[0]}<small>${f[1]}</small></div><div class="mid">${f[4]}<hr></div><div class="c num" style="text-align:right">${f[2]}<small>${f[3]}</small></div></div>`; }
     if(s.li) h+='<ul>'+s.li.map(x=>`<li>${x}</li>`).join('')+'</ul>';
-    if(s.links) h+=`<div class="btns">${s.links.map(k=>`<a class="btn" href="${gmap(k.q)}" target="_blank" rel="noopener">${PIN}${k.t}</a>`).join('')}</div>`;
+    if(s.links) h+=`<div class="btns">${s.links.map(k=>`<a class="btn" href="${k.u||gmap(k.q)}" target="_blank" rel="noopener">${PIN}${k.t}</a>`).join('')}</div>`;
     if(s.foods) h+=foodsBlock(s.foods);
     if(s.guide){ const g=GUIDES[s.guide]; h+=`<details class="guide"><summary>${g.s}</summary><div class="in">${g.body()}</div></details>`; }
     const dest = s.ll || null;
@@ -654,7 +690,7 @@ function renderInfo(){
   h+='<section class="block" style="padding-top:8px"><h2>예약 내역</h2>';
   BOOK.forEach(b=>{
     h+=`<div class="ticket"><div class="k">${b.k}</div><div class="v">${b.v}</div><div class="d">${b.d}</div>`+
-      (b.link?`<div class="btns"><a class="btn" href="${b.link}" target="_blank" rel="noopener">${b.linkT}</a></div>`:'')+`</div>`;
+      (b.link?`<div class="btns"><a class="btn" href="${b.link}" target="_blank" rel="noopener">${b.linkT}</a></div>`:'')+(b.tour?TOUR_INFO:'')+`</div>`;
   });
   h+='</section>';
 
